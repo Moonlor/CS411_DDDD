@@ -11,3 +11,10 @@ class Config(object):
         self.bolt_url = 'bolt://' + self.ip + ':' + self.bolt_endpoint
         self.http_url = 'http://' + self.ip + ':' + self.http_endpoint + '/db/data/transaction/commit'
         self.upload_folder = 'static/upload'
+
+        self.mysql_conf = {
+            "host": "35.238.20.175",
+            "user":"root", 
+            "password":"groupdddd",
+            "db":"cs411",
+        }

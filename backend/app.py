@@ -10,9 +10,9 @@ from controllers.rel_controller import rel_api
 from controllers.photo_controller import photo_api
 
 app = Flask(__name__)
-# app.register_blueprint(search_api)
-# app.register_blueprint(node_api)
-# app.register_blueprint(rel_api)
+app.register_blueprint(search_api)
+app.register_blueprint(node_api)
+app.register_blueprint(rel_api)
 app.register_blueprint(photo_api)
 CORS(app, supports_credentials=True)
 
