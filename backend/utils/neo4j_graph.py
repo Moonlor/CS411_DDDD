@@ -1,5 +1,4 @@
 from utils.config import Config
-import requests
 import json
 
 config = Config()

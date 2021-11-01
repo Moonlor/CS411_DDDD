@@ -4,6 +4,7 @@ from flask import jsonify
 from flask import request
 from flask import Blueprint
 from utils.config import Config
+from repository.restaurant_repository import RestaurantRepository
 
 restaurant_api = Blueprint('restaurant_api', __name__)
 
@@ -12,6 +13,15 @@ config = Config()
 
 @restaurant_api.route('/api/restaurant/<id>', methods=['GET'])
 def get_by_id(id):
-    
-    r = {'get': id}
+    rep = RestaurantRepository()
+    ret = rep.get_restaurant_by_id(id)
+    r = {'get': ret}
     return jsonify(r)
+
+@restaurant_api.route('/api/restaurant/search/<keyword>', methods=['GET'])
+def get_by_id(keyword):
+    rep = RestaurantRepository()
+    ret = rep.search_restaurant_by_keyword(keyword)
+    r = {'get': ret}
+    return jsonify(r)
+    

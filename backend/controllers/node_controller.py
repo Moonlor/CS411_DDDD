@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*
+
 import sys
 from py2neo import Graph, Node, Relationship
 from flask import abort
