@@ -6,7 +6,7 @@ from flask import Blueprint
 from utils.config import Config
 from repository.comment_repository import CommentRepository
 
-post_comment_api = Blueprint('comment_api', __name__)
+post_comment_api = Blueprint('post_comment_api', __name__)
 
 sys.path.append('../')
 config = Config()

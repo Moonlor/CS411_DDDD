@@ -11,7 +11,7 @@ from controllers.photo_controller import photo_api
 
 from controllers.user_controller import user_api
 from controllers.post_controller import post_api
-from controllers.comment_controller import comment_api
+from controllers.comment_controller import post_comment_api
 from controllers.restaurant_controller import restaurant_api
 from controllers.advance_controller import advance_api
 
@@ -23,7 +23,7 @@ app.register_blueprint(photo_api)
 
 app.register_blueprint(user_api)
 app.register_blueprint(post_api)
-app.register_blueprint(comment_api)
+app.register_blueprint(post_comment_api)
 app.register_blueprint(restaurant_api)
 app.register_blueprint(advance_api)
 

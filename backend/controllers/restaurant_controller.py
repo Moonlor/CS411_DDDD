@@ -19,7 +19,7 @@ def get_by_id(id):
     return jsonify(r)
 
 @restaurant_api.route('/api/restaurant/search/<keyword>', methods=['GET'])
-def get_by_id(keyword):
+def get_by_keyword(keyword):
     rep = RestaurantRepository()
     ret = rep.search_restaurant_by_keyword(keyword)
     r = {'get': ret}
