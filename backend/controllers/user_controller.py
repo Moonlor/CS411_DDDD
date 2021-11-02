@@ -56,14 +56,14 @@ def get_profile_follower_by_id(id):
     r = {'get': ret}
     return jsonify(r)
 
-@user_api.route('/api/user/<id1>/<id2>', methods=['POST'])
+@user_api.route('/api/user/follow/<id1>/<id2>', methods=['POST'])
 def set_profile_follow_by_id_route(id1, id2):
     rep = FollowRepository()
     rows_affected = rep.set_profile_follow_by_id(id1, id2)
     r = {'rows_affected': rows_affected}
     return jsonify(r)
 
-@user_api.route('/api/user/<id1>/<id2>', methods=['DELETE'])
+@user_api.route('/api/user/follow/<id1>/<id2>', methods=['DELETE'])
 def delete_profile_follow_by_id(id1, id2):
     rep = FollowRepository()
     rows_affected = rep.delete_profile_follow_by_id(id1, id2)
