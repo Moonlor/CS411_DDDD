@@ -8,11 +8,14 @@ class CommentRepository(object):
     def __init__(self):
         self.connector = Connector()
 
-    def get_profile_comment_by_id(self, id):
+    def get_profile_comment_by_id(self, id, offset, limit):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Comment WHERE user_id=%s")
+        query = ("SELECT COUNT(*) FROM Comment WHERE user_id=%s")
         cursor.execute(query, (id,))
+        total = cursor.fetchone()[0]
+        query = ("SELECT * FROM Comment WHERE user_id=%s LIMIT %s OFFSET %s")
+        cursor.execute(query, (id, limit, offset-1))
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
         ret = []
@@ -22,7 +25,7 @@ class CommentRepository(object):
             ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return json.dumps(ret)
+        return ret, total
 
     def get_comment_by_post_id(self, id):
         cnx = self.connector.open_connection()
