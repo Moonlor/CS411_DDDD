@@ -37,8 +37,10 @@ class PostRepository(object):
     def get_all_posts(self, offset, limit):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM (Post JOIN Mention ON(post_id)) JOIN Restaurant ON(restaurant_id) LIMIT %s OFFSET %s")
-        cursor.execute(query, (limit, offset))
+        cursor.execute("SELECT COUNT(*) FROM Post")
+        total = cursor.fetchone()[0]
+        query = ("SELECT * FROM Post LIMIT %s OFFSET %s")
+        cursor.execute(query, (limit, offset - 1))
         posts = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
         ret = []
@@ -48,29 +50,50 @@ class PostRepository(object):
             ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return json.dumps(ret)
+        return ret, total
 
     def get_post_by_id(self, id):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM (Post JOIN Mention ON(post_id)) JOIN Restaurant ON(restaurant_id) WHERE post_id=%s")
+        query = ("SELECT * FROM Post WHERE post_id=%s")
         cursor.execute(query, (id,))
-        profiles = cursor.fetchall()
+        posts = cursor.fetchall()
+        row_headers = [x[0] for x in cursor.description]
+        row_headers.append('restaurant')
+        ret = []
+        for p in posts:
+            p = list(p)
+            datetime_to_string(p)
+            restaurants = self.get_restaurant_by_post_id(id)
+            p.append(restaurants)
+            ret.append(dict(zip(row_headers, p)))
+        cursor.close()
+        cnx.close()
+        return ret
+
+    def get_restaurant_by_post_id(self, id):
+        cnx = self.connector.open_connection()
+        cursor = cnx.cursor()
+        query = ("SELECT * FROM Restaurant WHERE restaurant_id IN (SELECT restaurant_id FROM Mention WHERE post_id=%s)")
+        cursor.execute(query, (id,))
+        restaurants = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
         ret = []
-        for p in profiles:
+        for p in restaurants:
             p = list(p)
             datetime_to_string(p)
             ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return json.dumps(ret)
+        return ret
 
-    def get_posts_by_restaurant_id(self, id):
+    def get_posts_by_restaurant_id(self, id, offset, limit):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Post WHERE post_id IN (SELECT post_id FROM Mention WHERE restaurant_id=%s)")
-        cursor.execute(query, (id,))
+        cursor.execute("SELECT COUNT(post_id) FROM Mention WHERE restaurant_id='{}'".format(id))
+        total = cursor.fetchone()[0]
+        query = ("SELECT * FROM Post WHERE post_id IN (SELECT post_id FROM Mention WHERE restaurant_id=%s) LIMIT %s OFFSET %s")
+        cursor.execute(query, (id, limit, offset - 1))
         posts = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
         ret = []
@@ -80,7 +103,7 @@ class PostRepository(object):
             ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return json.dumps(ret)
+        return ret, total
 
     def create_post(self):
         params = request.json

@@ -15,7 +15,7 @@ config = Config()
 def get_by_id(id):
     rep = PostRepository()
     ret = rep.get_post_by_id(id)
-    r = {'get': ret}
+    r = {'code': 200, 'msg': "", 'data': ret}
     return jsonify(r)
 
 @post_api.route('/api/post/<id>', methods=['DELETE'])
@@ -30,15 +30,17 @@ def get_all_posts():
     offset = int(request.args.get("offset"))
     limit = int(request.args.get("limit"))
     rep = PostRepository()
-    ret = rep.get_all_posts(offset, limit)
-    r = {'get': ret}
+    ret, total = rep.get_all_posts(offset, limit)
+    r = {'code': 200, 'msg': "", 'data': ret, 'pageNumber': offset, 'pageSize': limit, 'total': total}
     return jsonify(r)
 
 @post_api.route('/api/post/restaurant/<id>', methods=['GET'])
 def get_post_by_restaurant_id(id):
+    offset = int(request.args.get("offset"))
+    limit = int(request.args.get("limit"))
     rep = PostRepository()
-    ret = rep.get_posts_by_restaurant_id(id)
-    r = {'get': ret}
+    ret, total = rep.get_posts_by_restaurant_id(id, offset, limit)
+    r = {'code': 200, 'msg': "", 'data': ret, 'pageNumber': offset, 'pageSize': limit, 'total': total}
     return jsonify(r)
 
 @post_api.route('/api/post', methods=['POST'])

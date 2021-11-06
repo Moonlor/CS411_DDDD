@@ -40,4 +40,3 @@ class RestaurantRepository(object):
         cnx.close()
         return ret
 
-
