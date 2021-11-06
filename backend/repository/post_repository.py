@@ -37,8 +37,8 @@ class PostRepository(object):
     def get_all_posts(self, offset, limit):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Post OFFSET %s LIMIT %s")
-        cursor.execute(query, (offset, limit))
+        query = ("SELECT * FROM Post LIMIT %s OFFSET %s")
+        cursor.execute(query, (limit, offset))
         posts = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
         ret = []
