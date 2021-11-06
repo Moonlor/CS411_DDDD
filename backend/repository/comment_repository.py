@@ -32,7 +32,8 @@ class CommentRepository(object):
         cursor = cnx.cursor()
         query = ("SELECT * FROM Post_Comment JOIN Comment USING(post_comment_id)" +
                  "NATURAL JOIN (SELECT user_id, first_name, last_name FROM User) AS u " +
-                 "WHERE post_comment_id in (SELECT post_comment_id FROM Respond WHERE post_id = %s)")
+                 "WHERE post_comment_id in (SELECT post_comment_id FROM Respond WHERE post_id = %s) " +
+                 "ORDER BY Comment.date DESC")
         cursor.execute(query, (id,))
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
