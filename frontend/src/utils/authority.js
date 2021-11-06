@@ -1,5 +1,6 @@
 export function getAuthority() {
-  return localStorage.getItem('docker-mgr-token');
+  return "-0aZWYi2YicFaLxTru96nA";
+  // return localStorage.getItem('docker-mgr-token');
 }
 
 export function setAuthority(token) {

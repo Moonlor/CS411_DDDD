@@ -42,3 +42,11 @@ export async function RunContainer(params) {
     body: JSON.stringify(params)
   });
 }
+
+export async function GetPosts(params) {
+  var url = new URL(`${DOMAIN}/api/posts`);
+  url.search = new URLSearchParams({ offset: params.offset, limit: params.limit }).toString()
+  return request(url, {
+    method: 'GET'
+  });
+}

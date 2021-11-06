@@ -47,7 +47,7 @@ class MainLayout extends Component {
             selectedKeys={[pathName]}
             onClick={this.handleClick}
             >
-            <Menu.Item key="/monitor">
+            {/* <Menu.Item key="/monitor">
               <Icon type="pie-chart" />
               <span>概览</span>
             </Menu.Item>
@@ -62,29 +62,29 @@ class MainLayout extends Component {
               <span>
                 <Link className={styles.menuLink} to="/image">镜像</Link>
               </span>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item key="/post">
-              <Icon type="hdd" />
+              <Icon type="fire" />
               <span>
                 <Link className={styles.menuLink} to="/post">Post</Link>
               </span>
             </Menu.Item>
-            <Menu.Item key="/image/hub">
+            {/* <Menu.Item key="/image/hub">
               <Icon type="cloud-download" />
               <span>
                 <Link className={styles.menuLink} to="/image/hub">Hub</Link>
               </span>
-            </Menu.Item>
+            </Menu.Item> */}
             <SubMenu
               key="sub1"
               title={
                 <span>
                   <Icon type="user" />
-                  <span>用户</span>
+                  <span>User</span>
                 </span>
               }
             >
-              <Menu.Item key="logout" onClick={this.logoutHandler}>登出</Menu.Item>
+              <Menu.Item key="logout" onClick={this.logoutHandler}>log out</Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
