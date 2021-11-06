@@ -26,7 +26,7 @@ class CommentRepository(object):
     def get_comment_by_post_id(self, id):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Post_Comment WHERE post_comment_id in (SELECT post_comment_id FROM Respond WHERE post_id = '%s')")
+        query = ("SELECT * FROM Post_Comment WHERE post_comment_id in (SELECT post_comment_id FROM Respond WHERE post_id = %s)")
         cursor.execute(query, (id,))
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
@@ -37,12 +37,12 @@ class CommentRepository(object):
             ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return json.dumps(ret)
+        return ret
 
     def create_post_comment(self, request):
         params = request.json
         # format to be decided
-        post_comment_id = "" # TODO: post_comment_id generate
+        # post_comment_id = "" # TODO: post_comment_id generate
         likes = params.get('likes')
         date = params.get('date')
         text = params.get('text')
@@ -51,31 +51,32 @@ class CommentRepository(object):
         converted_data = string_to_datetime(date)
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("INSERT INTO Post_Comment(post_comment_id,date,text,likes) VALUES(%s, %s, %s, %s)")
-        cursor.execute(query, (post_comment_id, converted_data, text, likes))
+        query = ("INSERT INTO Post_Comment(date,text,likes) VALUES(%s, %s, %s)")
+        cursor.execute(query, (converted_data, text, likes))
+        post_comment_id = cursor.lastrowid # TODO: auto increment?
         self.create_comment(cnx, post_comment_id, user_id, date)
         self.create_respond(cnx, post_comment_id, post_id, date)
         cnx.commit()
         cursor.close()
         cnx.close()
-        return cursor.rowcount
+        return [{'id': post_comment_id}]
 
     def create_comment(self, cnx, post_comment_id, user_id, date):
         cursor = cnx.cursor()
-        query = ("INSERT INTO Comment(post_comment_id,user_id,date) VALUES(%s, %s, %s)")
-        cursor.execute(query, (post_comment_id, user_id, date))
+        cursor.execute(
+            "INSERT INTO Comment(post_comment_id,user_id,date) VALUES({},{},{})".format(post_comment_id, user_id, date))
 
     def create_respond(self, cnx, post_comment_id, post_id, date):
         cursor = cnx.cursor()
-        query = ("INSERT INTO Respond(post_comment_id,post_id,date) VALUES(%s, %s, %s)")
-        cursor.execute(query, (post_comment_id,post_id,date))
+        cursor.execute(
+            "INSERT INTO Respond(post_comment_id,post_id,date) VALUES({},{},{})".format(post_comment_id, post_id, date))
 
     def delete_post_comment_by_post_comment_id(self, id):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("DELETE FROM Post_Comment WHERE post_comment_id=%s")
-        cursor.execute(query, (id))
+        cursor.execute("DELETE FROM Post_Comment WHERE post_comment_id={}".format(id))
+        count = cursor.rowcount
         cnx.commit()
         cursor.close()
         cnx.close()
-        return cursor.rowcount
+        return count
