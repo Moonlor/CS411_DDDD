@@ -27,7 +27,7 @@ class CommentRepository(object):
     def get_comment_by_post_id(self, id):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Post_Comment NATURAL JOIN Comment " +
+        query = ("SELECT * FROM Post_Comment JOIN Comment USING(post_comment_id)" +
                  "NATURAL JOIN (SELECT user_id, first_name, last_name FROM User) AS u " +
                  "WHERE post_comment_id in (SELECT post_comment_id FROM Respond WHERE post_id = %s)")
         cursor.execute(query, (id,))
