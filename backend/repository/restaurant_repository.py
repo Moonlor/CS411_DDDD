@@ -22,13 +22,13 @@ class RestaurantRepository(object):
             ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return json.dumps(ret)
+        return ret
 
     def search_restaurant_by_keyword(self, keyword):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Restaurant WHERE categories LIKE '%%%s%%' OR name LIKE '%%%s%%' ")
-        cursor.execute(query, (keyword, keyword))
+        query = ("SELECT * FROM Restaurant WHERE categories LIKE %s OR name LIKE %s")
+        cursor.execute(query, ('%' + keyword + '%', '%' + keyword + '%'))
         restaurants = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
         ret = []
@@ -38,6 +38,6 @@ class RestaurantRepository(object):
             ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return json.dumps(ret)
+        return ret
 
 

@@ -15,13 +15,13 @@ config = Config()
 def get_by_id(id):
     rep = RestaurantRepository()
     ret = rep.get_restaurant_by_id(id)
-    r = {'get': ret}
+    r = {'code': 200, 'msg': "", 'data': ret}
     return jsonify(r)
 
 @restaurant_api.route('/api/restaurant/search/<keyword>', methods=['GET'])
 def get_by_keyword(keyword):
     rep = RestaurantRepository()
     ret = rep.search_restaurant_by_keyword(keyword)
-    r = {'get': ret}
+    r = {'code': 200, 'msg': "", 'data': ret}
     return jsonify(r)
     

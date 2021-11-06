@@ -37,7 +37,7 @@ class PostRepository(object):
     def get_all_posts(self, offset, limit):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Post LIMIT %s OFFSET %s")
+        query = ("SELECT * FROM (Post JOIN Mention ON(post_id)) JOIN Restaurant ON(restaurant_id) LIMIT %s OFFSET %s")
         cursor.execute(query, (limit, offset))
         posts = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
@@ -53,7 +53,7 @@ class PostRepository(object):
     def get_post_by_id(self, id):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Post WHERE post_id=%s")
+        query = ("SELECT * FROM (Post JOIN Mention ON(post_id)) JOIN Restaurant ON(restaurant_id) WHERE post_id=%s")
         cursor.execute(query, (id,))
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
@@ -69,7 +69,7 @@ class PostRepository(object):
     def get_posts_by_restaurant_id(self, id):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Post WHERE post_id IN (SELECT post_id FROM Mention WHERE restaurant=%s)")
+        query = ("SELECT * FROM Post WHERE post_id IN (SELECT post_id FROM Mention WHERE restaurant_id=%s)")
         cursor.execute(query, (id,))
         posts = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
