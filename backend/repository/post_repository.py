@@ -41,7 +41,7 @@ class PostRepository(object):
         cursor = cnx.cursor()
         cursor.execute("SELECT COUNT(*) FROM Post")
         total = cursor.fetchone()[0]
-        query = ("SELECT * FROM Post LIMIT %s OFFSET %s")
+        query = ("SELECT * FROM Post NATURAL JOIN (SELECT user_id, first_name, last_name FROM User) AS u LIMIT %s OFFSET %s")
         cursor.execute(query, (limit, offset - 1))
         posts = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
@@ -57,7 +57,7 @@ class PostRepository(object):
     def get_post_by_id(self, id):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Post WHERE post_id=%s")
+        query = ("SELECT * FROM Post NATURAL JOIN (SELECT user_id, first_name, last_name FROM User) AS u WHERE post_id=%s")
         cursor.execute(query, (id,))
         posts = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
@@ -94,7 +94,8 @@ class PostRepository(object):
         cursor = cnx.cursor()
         cursor.execute("SELECT COUNT(post_id) FROM Mention WHERE restaurant_id='{}'".format(id))
         total = cursor.fetchone()[0]
-        query = ("SELECT * FROM Post WHERE post_id IN (SELECT post_id FROM Mention WHERE restaurant_id=%s) LIMIT %s OFFSET %s")
+        query = ("SELECT * FROM Post NATURAL JOIN (SELECT user_id, first_name, last_name FROM User) AS u " +
+                 " WHERE post_id IN (SELECT post_id FROM Mention WHERE restaurant_id=%s) LIMIT %s OFFSET %s")
         cursor.execute(query, (id, limit, offset - 1))
         posts = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]

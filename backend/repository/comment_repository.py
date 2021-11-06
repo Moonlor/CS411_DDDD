@@ -27,7 +27,9 @@ class CommentRepository(object):
     def get_comment_by_post_id(self, id):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Post_Comment WHERE post_comment_id in (SELECT post_comment_id FROM Respond WHERE post_id = %s)")
+        query = ("SELECT * FROM Post_Comment NATURAL JOIN Respond " +
+                 "NATURAL JOIN (SELECT user_id, first_name, last_name FROM User) AS u " +
+                 "WHERE post_comment_id in (SELECT post_comment_id FROM Respond WHERE post_id = %s)")
         cursor.execute(query, (id,))
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
