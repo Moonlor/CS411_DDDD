@@ -23,7 +23,7 @@ class UserRepository(object):
             ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return json.dumps(ret)
+        return ret
 
     def set_profile_by_id(self, id):
         params = request.json

@@ -7,10 +7,10 @@ class AdvanceRepository(object):
     def __init__(self):
         self.connector = Connector()
     
-    def get_similar_user_by_category(self, c1, c2):
+    def get_similar_user_by_category(self, c1, c2, offset, limit):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        string = """select first.name, first.email
+        string = """select {}
                 FROM
                 (
                     select concat(first_name, ' ', last_name) name, email
@@ -40,9 +40,11 @@ class AdvanceRepository(object):
                         group by u.user_id
                 )
                 ) as second
-                ON first.name = second.name and first.email = second.email
-                LIMIT 15"""
-        query = string.format(c1, c2)
+                ON first.name = second.name and first.email = second.email {} """
+        query = string.format("COUNT(*)", c1, c2, "")
+        cursor.execute(query)
+        total = cursor.fetchone()[0]
+        query = string.format("first.name, first.email", c1, c2, f"LIMIT {limit} OFFSET {offset-1}")
         cursor.execute(query)
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
@@ -53,17 +55,20 @@ class AdvanceRepository(object):
             ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return json.dumps(ret)
+        return ret, total
 
-    def get_user_with_likes_more_than(self, likes):
+    def get_user_with_likes_more_than(self, likes, offset, limit):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        string = """select concat(u.first_name, ' ', u.last_name) name, p.post_id, r.name, p.likes
+        string = """select {}
                     from User u join Post p join Mention m join Restaurant r
                         on u.user_id = p.user_id and p.post_id = m.post_id and m.restaurant_id = r.restaurant_id
                     where p.likes > {}
-                    limit 15"""
-        query = string.format(int(likes))
+                    {} """
+        query = string.format("COUNT(*)", int(likes), "")
+        cursor.execute(query)
+        total = cursor.fetchone()[0]
+        query = string.format("concat(u.first_name, ' ', u.last_name) name, p.post_id, r.name, p.likes", int(likes), f"LIMIT {limit} OFFSET {offset-1}")
         cursor.execute(query)
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
@@ -74,4 +79,4 @@ class AdvanceRepository(object):
             ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return json.dumps(ret)
+        return ret, total

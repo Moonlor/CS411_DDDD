@@ -9,11 +9,14 @@ class PostRepository(object):
     def __init__(self):
         self.connector = Connector()
 
-    def get_profile_post_by_id(self, id):
+    def get_profile_post_by_id(self, id, offset, limit):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Post WHERE user_id=%s")
-        cursor.execute(query, (id,))
+        query = ("SELECT COUNT(*) FROM Post WHERE user_id=%s")
+        cursor.execute(query, (id, ))
+        total = cursor.fetchone()[0]
+        query = ("SELECT * FROM Post WHERE user_id=%s LIMIT %s OFFSET %s")
+        cursor.execute(query, (id, limit, offset-1))
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
         ret = []
@@ -23,7 +26,7 @@ class PostRepository(object):
             ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return json.dumps(ret)
+        return ret, total
 
     def delete_post_by_id(self, id):
         cnx = self.connector.open_connection()
