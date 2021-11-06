@@ -22,7 +22,7 @@ def get_by_id(id):
 def delete_by_id(id):
     rep = PostRepository()
     rows_affected = rep.delete_post_by_id(id)
-    r = {'rows_affected': rows_affected}
+    r = {'code': 200, 'msg': ""}
     return jsonify(r)
 
 @post_api.route('/api/posts', methods=['GET'])
@@ -46,13 +46,13 @@ def get_post_by_restaurant_id(id):
 @post_api.route('/api/post', methods=['POST'])
 def create_post():
     rep = PostRepository()
-    rows_affected = rep.create_post()
-    r = {'rows_affected': rows_affected}
+    ret = rep.create_post()
+    r = {'code': 200, 'msg': "", 'data': ret}
     return jsonify(r)
 
 @post_api.route('/api/post', methods=['PUT'])
 def update_post():
     rep = PostRepository()
-    rows_affected = rep.update_post()
-    r = {'rows_affected': rows_affected}
+    ret = rep.update_post()
+    r = {'code': 200, 'msg': "", 'data': ret}
     return jsonify(r)

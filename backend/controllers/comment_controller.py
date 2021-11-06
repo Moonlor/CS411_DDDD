@@ -25,7 +25,6 @@ def delete_by_id(id):
     r = {'code': 200, 'msg': ""}
     return jsonify(r)
 
-# TODO: test
 @post_comment_api.route('/api/post_comment', methods=['POST'])
 def create_post_comment():
     rep = CommentRepository()

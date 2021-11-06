@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*
 import json
+import uuid
 from utils.utils import datetime_to_string, string_to_datetime
 from utils.connection import Connector
 
@@ -41,8 +42,7 @@ class CommentRepository(object):
 
     def create_post_comment(self, request):
         params = request.json
-        # format to be decided
-        # post_comment_id = "" # TODO: post_comment_id generate
+        post_comment_id = uuid.uuid4().hex[:30]
         likes = params.get('likes')
         date = params.get('date')
         text = params.get('text')
@@ -51,9 +51,8 @@ class CommentRepository(object):
         converted_data = string_to_datetime(date)
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("INSERT INTO Post_Comment(date,text,likes) VALUES(%s, %s, %s)")
-        cursor.execute(query, (converted_data, text, likes))
-        post_comment_id = cursor.lastrowid # TODO: auto increment?
+        query = ("INSERT INTO Post_Comment(post_comment_id, date,text,likes) VALUES(%s, %s, %s, %s)")
+        cursor.execute(query, (post_comment_id, converted_data, text, likes))
         self.create_comment(cnx, post_comment_id, user_id, date)
         self.create_respond(cnx, post_comment_id, post_id, date)
         cnx.commit()
@@ -63,13 +62,13 @@ class CommentRepository(object):
 
     def create_comment(self, cnx, post_comment_id, user_id, date):
         cursor = cnx.cursor()
-        cursor.execute(
-            "INSERT INTO Comment(post_comment_id,user_id,date) VALUES({},{},{})".format(post_comment_id, user_id, date))
+        query = ("INSERT INTO Comment(post_comment_id,user_id,date) VALUES(%s,%s,%s)")
+        cursor.execute(query, (post_comment_id, user_id, date))
 
     def create_respond(self, cnx, post_comment_id, post_id, date):
         cursor = cnx.cursor()
-        cursor.execute(
-            "INSERT INTO Respond(post_comment_id,post_id,date) VALUES({},{},{})".format(post_comment_id, post_id, date))
+        query = ("INSERT INTO Respond(post_comment_id,post_id,date) VALUES(%s,%s,%s)")
+        cursor.execute(query, (post_comment_id, post_id, date))
 
     def delete_post_comment_by_post_comment_id(self, id):
         cnx = self.connector.open_connection()

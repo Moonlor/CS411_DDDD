@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*
 import json
+import uuid
 from flask import request
 from utils.utils import datetime_to_string, string_to_datetime
 from utils.connection import Connector
@@ -28,11 +29,12 @@ class PostRepository(object):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
         query = ("DELETE FROM Post WHERE post_id=%s")
-        cursor.execute(query, id)
+        cursor.execute(query, (id,))
         cnx.commit()
+        count = cursor.rowcount
         cursor.close()
         cnx.close()
-        return cursor.rowcount
+        return count
 
     def get_all_posts(self, offset, limit):
         cnx = self.connector.open_connection()
@@ -108,22 +110,22 @@ class PostRepository(object):
     def create_post(self):
         params = request.json
         # format to be decided
-        post_id = "" # TODO: post_id generate
+        post_id = uuid.uuid4().hex[:30]
         stars = params.get('stars')
         date = params.get('date')
+        converted_data = string_to_datetime(date)
         text = params.get('text')
         user_id = params.get('user_id')
-        converted_data = string_to_datetime(date)
         restaurant_ids = params.get('restaurant_ids')
-        self.create_mention(post_id, restaurant_ids, converted_data)
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("INSERT INTO Follow(stars,date,text,user_id) VALUES(%s, %s, %s, %s)")
-        cursor.execute(query, (stars, converted_data, text, user_id))
-        cnx.commit()
+        query = ("INSERT INTO Post(post_id, stars,date,text,user_id) VALUES(%s, %s, %s, %s, %s)")
+        cursor.execute(query, (post_id, stars, converted_data, text, user_id))
+        self.create_mention(post_id, restaurant_ids, converted_data)
+        # cnx.commit()
         cursor.close()
         cnx.close()
-        return cursor.rowcount
+        return [{'post_id':post_id}]
 
     def create_mention(self, post_id, restaurant_ids, date):
         cnx = self.connector.open_connection()
@@ -132,7 +134,7 @@ class PostRepository(object):
         data_list = []
         for rid in restaurant_ids:
             data_list.append((post_id, rid, date))
-        cursor.execute(query, data_list)
+        cursor.executemany(query, data_list)
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -141,20 +143,19 @@ class PostRepository(object):
     def update_post(self):
         params = request.json
         post_id = params.get('post_id')
-        stars = params.get('stars')
         date = params.get('date')
         text = params.get('text')
         converted_data = string_to_datetime(date)
-        restaurant_ids = params.get('restaurant_ids')
-        self.update_mention(post_id, restaurant_ids, date)
+        # restaurant_ids = params.get('restaurant_ids')
+        # self.update_mention(post_id, restaurant_ids, date)
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("UPDATE User SET stars=%s, date=%s, text=%s WHERE post_id=%s")
-        cursor.execute(query, (stars, converted_data, text, post_id))
+        query = ("UPDATE Post SET date=%s, text=%s WHERE post_id=%s")
+        cursor.execute(query, (converted_data, text, post_id))
         cnx.commit()
         cursor.close()
         cnx.close()
-        return cursor.rowcount
+        return [{'post_id': post_id}]
 
     def update_mention(self, post_id, restaurant_ids, date):
         cnx = self.connector.open_connection()
