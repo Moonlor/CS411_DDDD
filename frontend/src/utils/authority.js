@@ -1,5 +1,5 @@
 export function getAuthority() {
-  return "-0aZWYi2YicFaLxTru96nA";
+  return "is1fpGG9J8Zq19OGi67DxA";
   // return localStorage.getItem('docker-mgr-token');
 }
 
@@ -8,7 +8,8 @@ export function setAuthority(token) {
 }
 
 export function getUserInfo() {
-  return JSON.parse(localStorage.getItem('docker-mgr-user'));
+  return "is1fpGG9J8Zq19OGi67DxA";
+  // return JSON.parse(localStorage.getItem('docker-mgr-user'));
 }
 
 export function setUserInfo(data) {

@@ -10,75 +10,26 @@ const { Search } = Input;
 
 @connect(({ post, loading }) => ({
   postList: post.postList,
-  pageNum: post.pageNum,
-  pageSize: post.pageSize,
+  offset: post.offset,
+  limit: post.limit,
   loading: loading.effects['post/get'],
 }))
 class PostPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      visible: false,
-    };
+    this.state = {};
   }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.confirmLoading !== nextProps.confirmLoading) {
-      if (nextProps.confirmLoading) {
-        this.setState({
-          visible: !nextProps.confirmLoading
-        })
-      }
-    }
-  }
-
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleOk = () => {
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const { dispatch } = this.props;
-        const { id } = getUserInfo();
-        dispatch({
-          type: 'container/addNewServer',
-          payload: {
-            ...values,
-            userId: id
-          },
-        });
-        this.setState({
-          confirmLoading: true,
-        });
-        setTimeout(() => {
-          this.setState({
-            visible: false,
-          });
-        }, 1500);
-      }
-    });
-  };
-
-  handleCancel = () => {
-    this.setState({
-      visible: false,
-    });
-  };
 
   onSearch = value => console.log(value);
 
   render() {
-    const { loading, postList } = this.props;
-    const { visible } = this.state;
+    const { limit, offset, postList } = this.props;
 
     let posts;
     if (postList) {
       posts = postList.map(post => (
-        <PostCard key={post.post_id} post={post} />
+        <PostCard key={post.post_id} post={post} linkToDetail={true}/>
       ))
     }
 
@@ -87,7 +38,7 @@ class PostPage extends Component {
         <div style={{ padding: 40 }}>
           <Row>
             <Col span={4}>
-              <SendPostCard></SendPostCard>
+              <SendPostCard offset={offset} limit={limit}></SendPostCard>
             </Col>
             <Col span={16}>
               <Search placeholder="input search text" onSearch={this.onSearch.bind(this)} enterButton />
