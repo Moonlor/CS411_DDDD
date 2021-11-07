@@ -20,8 +20,9 @@ def get_by_id(id):
 
 @restaurant_api.route('/api/restaurant/search/<keyword>', methods=['GET'])
 def get_by_keyword(keyword):
+    limit = int(request.args.get("limit"))
     rep = RestaurantRepository()
-    ret = rep.search_restaurant_by_keyword(keyword)
+    ret = rep.search_restaurant_by_keyword(keyword, limit)
     r = {'code': 200, 'msg': "", 'data': ret}
     return jsonify(r)
     

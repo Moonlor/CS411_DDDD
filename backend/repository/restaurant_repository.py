@@ -24,11 +24,11 @@ class RestaurantRepository(object):
         cnx.close()
         return ret
 
-    def search_restaurant_by_keyword(self, keyword):
+    def search_restaurant_by_keyword(self, keyword, limit):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        query = ("SELECT * FROM Restaurant WHERE categories LIKE %s OR name LIKE %s ORDER BY restaurant_id")
-        cursor.execute(query, ('%' + keyword + '%', '%' + keyword + '%'))
+        query = ("SELECT * FROM Restaurant WHERE categories LIKE %s OR name LIKE %s ORDER BY restaurant_id LIMIT %s")
+        cursor.execute(query, ('%' + keyword + '%', '%' + keyword + '%', limit))
         restaurants = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
         ret = []
