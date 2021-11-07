@@ -68,7 +68,7 @@ class AdvanceRepository(object):
         query = string.format("COUNT(*)", int(likes), "")
         cursor.execute(query)
         total = cursor.fetchone()[0]
-        query = string.format("concat(u.first_name, ' ', u.last_name) name, p.post_id, r.name, p.likes", int(likes), f"LIMIT {limit} OFFSET {offset-1}")
+        query = string.format("*", int(likes), f"LIMIT {limit} OFFSET {offset-1}")
         cursor.execute(query)
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]

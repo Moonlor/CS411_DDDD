@@ -18,6 +18,8 @@ class CommentRepository(object):
         cursor.execute(query, (id, limit, offset-1))
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
+        #index 2 is datetime
+        profiles.sort(key=lambda x:x[2], reverse=True)
         ret = []
         for p in profiles:
             p = list(p)

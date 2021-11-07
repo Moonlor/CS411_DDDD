@@ -20,6 +20,8 @@ class PostRepository(object):
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
         ret = []
+        #index 2 is datetime
+        profiles.sort(key=lambda x:x[2], reverse=True)
         for p in profiles:
             p = list(p)
             datetime_to_string(p)
