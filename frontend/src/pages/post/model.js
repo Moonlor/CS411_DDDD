@@ -1,4 +1,4 @@
-import { SendPost, GetPosts, GetPostByID, DeletePostByID, UpdatePost } from './service';
+import { SendPost, GetPosts, GetPostByID, DeletePostByID, UpdatePost, AdvSearch } from './service';
 import { getAuthority, getUserInfo } from '@/utils/authority';
 import { notification } from 'antd';
 
@@ -14,6 +14,19 @@ export default {
   effects: {
     *get({ payload }, { call, put }) {
       const response = yield call(GetPosts, payload);
+      console.log(response)
+      yield put({
+        type: 'save',
+        payload: {
+          posts: response.data,
+          offset: response.pageNumber,
+          limit: response.pageSize,
+        },
+      });
+    },
+
+    *advSearch({ payload }, { call, put }) {
+      const response = yield call(AdvSearch, payload);
       console.log(response)
       yield put({
         type: 'save',

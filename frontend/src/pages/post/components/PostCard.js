@@ -60,8 +60,12 @@ class PostCard extends Component {
         const { Meta } = Card;
 
         let actions = [
-            <Icon type="heart" />
+            <><Icon type="heart" /></>
         ]
+
+        if (post.likes) {
+            actions.push(<>{ post.likes }</>)
+        }
 
         if (linkToDetail) {
             actions.push(

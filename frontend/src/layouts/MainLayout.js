@@ -69,12 +69,12 @@ class MainLayout extends Component {
                 <Link className={styles.menuLink} to="/post">Post</Link>
               </span>
             </Menu.Item>
-            {/* <Menu.Item key="/image/hub">
-              <Icon type="cloud-download" />
+            <Menu.Item key="/social">
+              <Icon type="team" />
               <span>
-                <Link className={styles.menuLink} to="/image/hub">Hub</Link>
+                <Link className={styles.menuLink} to="/social">Social</Link>
               </span>
-            </Menu.Item> */}
+            </Menu.Item>
             <SubMenu
               key="sub1"
               title={

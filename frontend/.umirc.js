@@ -8,7 +8,7 @@ export default {
       antd: true,
       dva: true,
       dynamicImport: false,
-      title: 'DockerMgrFrontEnd',
+      title: 'DDDD',
       dll: false,
       
       routes: {

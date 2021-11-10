@@ -1,5 +1,5 @@
 import request from '@/utils/request';
-import { DOMAIN } from '@/utils/constants';
+import { DOMAIN, OFFSET, LIMIT } from '@/utils/constants';
 
 export async function GetPosts(params) {
   var url = new URL(`${DOMAIN}/api/posts`);
@@ -32,5 +32,17 @@ export async function UpdatePost(params) {
   return request(`${DOMAIN}/api/post`, {
     method: 'PUT',
     body: JSON.stringify(params)
+  });
+}
+
+export async function AdvSearch(params) {
+  var url = new URL(`${DOMAIN}/api/advance/likes/${params.likes}`);
+  if (!params.offset) {
+    params.offset = OFFSET;
+    params.limit = LIMIT;
+  }
+  url.search = new URLSearchParams({ offset: params.offset, limit: params.limit }).toString()
+  return request(url, {
+    method: 'GET'
   });
 }

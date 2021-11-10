@@ -21,7 +21,15 @@ class PostPage extends Component {
     this.state = {};
   }
 
-  onSearch = value => console.log(value);
+  onSearch = value => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'post/advSearch',
+      payload: {
+        likes: value
+      },
+    });
+  };
 
   render() {
     const { limit, offset, postList } = this.props;
