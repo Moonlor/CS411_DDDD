@@ -39,7 +39,6 @@ class Root extends Component {
   render() {
 
     let token = getAuthority();
-    token = '00000';
 
     if (this.props.location.pathname === '/login') {
       if (token !== 'null') {
@@ -65,7 +64,7 @@ class Root extends Component {
     }
 
     if (token === 'null' || !token) {
-      // this.props.history.push("/login");
+      this.props.history.push("/login");
       return (
         <div>
           <Background />
