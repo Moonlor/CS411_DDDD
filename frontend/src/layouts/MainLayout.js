@@ -94,7 +94,7 @@ class MainLayout extends Component {
               {this.props.children}
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Docker Manager ©2019 Created by Moonlor</Footer>
+          <Footer style={{ textAlign: 'center' }}>Delp ©2021</Footer>
         </Layout>
       </Layout>
     );

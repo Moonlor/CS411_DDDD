@@ -49,7 +49,7 @@ class PostPage extends Component {
               <SendPostCard offset={offset} limit={limit}></SendPostCard>
             </Col>
             <Col span={16}>
-              <Search placeholder="input search text" onSearch={this.onSearch.bind(this)} enterButton />
+              <Search placeholder="posts with likes more than?" onSearch={this.onSearch.bind(this)} enterButton />
             </Col>
             <Col span={4}>
             </Col>
