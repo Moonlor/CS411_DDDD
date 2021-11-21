@@ -66,7 +66,7 @@ export default {
         },
       });
       notification.success({
-        message: 'You just send a post!'
+        message: 'You just sent a post!'
       })
     },
 

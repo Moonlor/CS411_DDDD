@@ -40,12 +40,12 @@ class MainLayout extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
           <div className={styles.logo} />
-          <Menu 
-            theme="dark" 
-            defaultSelectedKeys={['/monitor']} 
-            mode="inline" 
+          <Menu
+            theme="dark"
+            defaultSelectedKeys={['/monitor']}
+            mode="inline"
             selectedKeys={[pathName]}
-            onClick={this.handleClick}
+            // onClick={this.handleClick}
             >
             {/* <Menu.Item key="/monitor">
               <Icon type="pie-chart" />
@@ -84,7 +84,10 @@ class MainLayout extends Component {
                 </span>
               }
             >
-              <Menu.Item key="logout" onClick={this.logoutHandler}>log out</Menu.Item>
+              <Menu.Item key="logout" onClick={this.logoutHandler}>Log Out</Menu.Item>
+              <Menu.Item key="profile">
+                <Link className={styles.menuLink} to="/profile">Profile</Link>
+              </Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
