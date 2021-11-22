@@ -1,44 +1,36 @@
 import { Component, useState, useEffect } from 'react';
 import {Avatar, Button, Card, Divider, Menu, Row, Typography, Col, Form, Icon} from 'antd';
 import { UserOutlined, ManOutlined, WomanOutlined } from '@ant-design/icons';
+import { Link, history } from 'umi';
 import { connect } from 'dva';
 import { getUserInfo } from '@/utils/authority';
 import styles from "../../layouts/index.css";
+import EditPostCard from "../post/components/EditPostCard";
 
-const { Title, Link } = Typography;
+const { Title, Link: AntLink } = Typography;
 
-// TODO: what props do we need?
-const UserProfile = ({userId}) => {
+
+const UserProfile = (props) => {
 
   // TODO: click menu => change state: index of subpage to be shown => show subpage accordingly
 
-  const subPages = [
-    // 0: my posts
-    (
-      <div className="site-card-border-less-wrapper">
-        <Card title="My Posts"  style={{ width: '100%' }}>
-          <p>Card content</p>
-          <p>Card content</p>
-          <p>Card content</p>
-        </Card>
-      </div>
-    ),
-    // 1: my followers
-    (<div>My Followers</div>),
-    // 2: i'm following
-    (<div>I'm Following</div>),
-  ];
+
+  const getBirth = (birth_date) =>{
+    const months = [ "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December" ];
+    const birthDateObj = new Date(Date.parse(birth_date))
+    const birthDay = months[birthDateObj.getDay()];
+    const birthMonth = months[birthDateObj.getMonth()];
+    const birthYear = birthDateObj.getFullYear();
+    return {day: birthDay, month: birthMonth, year: birthYear};
+  }
 
   // Dummy user info
   const  first_name = 'Quinn', last_name = 'L.', gender = '0', birth_date = '01/16/1975, 08:54:36';
 
-  // Get year and month of birth
-  const months = [ "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December" ];
-  const birthDateObj = new Date(Date.parse(birth_date))
-  const birthMonth = months[birthDateObj.getMonth()];
-  const birthYear = birthDateObj.getFullYear();
 
+  const userBirth = getBirth(birth_date);
+  const userBirthMonth = userBirth.month, userBirthYear = userBirth.year;
   const [subPageIdx, setSubPageIdx] = useState(0);
 
   // Dummy list of followers: only one follower now
@@ -87,6 +79,103 @@ const UserProfile = ({userId}) => {
     console.log("e.key: ", e.key);
   }
 
+  const deletePost = (post_id) => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'post/deleteByID',
+      payload: {
+        post_id: post_id
+      },
+    });
+    setTimeout(() => {
+      props.history.push("/profile")
+    }, 300)
+  }
+
+  const subPages = [
+    // 0: my posts
+    (
+      <div className="site-card-border-less-wrapper">
+        <Card title="Posts"  style={{ width: '100%' }}>
+          {
+            postList.map((post)=>{
+              return (
+                <Card type="inner" title={post.date}
+                      actions={
+                        post.user_id === getUserInfo()?
+                        [
+                          <EditPostCard post={post}/>,
+                          <Icon type="delete" onClick={deletePost(post.post_id)}/>
+                        ]:[]}
+                      extra={<Link
+                        replace
+                        to={{
+                          pathname: '/post/detail',
+                          search: `?post_id=${post.post_id}`
+                        }}
+                >< Icon type="more" /></Link>}>
+                  <p>{post.text}</p>
+                </Card>
+              );
+            })
+          }
+        </Card>
+      </div>
+    ),
+    // 1: my followers
+    (
+      <div className="site-card-border-less-wrapper">
+        <Card title="Followers"  style={{ width: '100%' }}>
+          {
+            followerList.map((follower)=>{
+              const birth = getBirth(follower.birth_date);
+              const birthMonth = birth.month, birthYear = birth.year;
+              return (
+                <Card type="inner" title={follower.first_name + " " + follower.last_name}
+                      // extra={<Link
+                      //   to={{
+                      //     pathname: '/user/detail',
+                      //     search: `?post_id=${post.post_id}`
+                      //   }}
+                      // >
+                  // < Icon type="more" /></Link>}
+                  >
+                  <p>Born in {birthMonth} {birthYear}</p>
+                </Card>
+              );
+            })
+          }
+        </Card>
+      </div>
+    ),
+    // 2: i'm following
+    (
+      <div className="site-card-border-less-wrapper">
+        <Card title="Following"  style={{ width: '100%' }}>
+          {
+            followingList.map((following)=>{
+              const birth = getBirth(following.birth_date);
+              const birthMonth = birth.month, birthYear = birth.year;
+              return (
+                <Card type="inner" title={following.first_name + " " + following.last_name}
+                  // extra={<Link
+                  //   to={{
+                  //     pathname: '/user/detail',
+                  //     search: `?post_id=${post.post_id}`
+                  //   }}
+                  // >
+                  // < Icon type="more" /></Link>}
+                >
+                  <p>Born in {birthMonth} {birthYear}</p>
+                </Card>
+              );
+            })
+          }
+        </Card>
+      </div>
+    )
+  ];
+
   // TODO: link at all links
   return (
     <div>
@@ -104,7 +193,7 @@ const UserProfile = ({userId}) => {
                   <ManOutlined style={{fontSize: '16px', color: '#6ca0dc'}}/>
                 }
               </span>
-              <p>Born in {birthMonth} {birthYear}</p>
+              <p>Born in {userBirthMonth} {userBirthYear}</p>
             <Row>
               <Col span={6}>
                 <Row align="middle">
@@ -146,20 +235,20 @@ const UserProfile = ({userId}) => {
                 <Menu.Item key={0}>
                   <Icon type="fire" />
                   <span>
-                    <Button type="link">My Posts</Button>
+                    <Button type="link">Posts</Button>
                   </span>
                 </Menu.Item>
                 {/*<Divider />*/}
                 <Menu.Item key={1}>
                   <Icon type="user" />
                   <span>
-                    <Button type="link">My Followers</Button>
+                    <Button type="link">Followers</Button>
                   </span>
                 </Menu.Item>
                 <Menu.Item key={2}>
                   <Icon type="user" />
                   <span>
-                    <Button type="link">I'm Following</Button>
+                    <Button type="link">Following</Button>
                   </span>
                 </Menu.Item>
 
@@ -177,8 +266,10 @@ const UserProfile = ({userId}) => {
   );
 
 }
-
-export default Form.create()(UserProfile);
+export default connect(({ userId }) => ({
+  userId
+}))(UserProfile);
+// export default Form.create()(UserProfile);
 // export default UserProfile;
 
 // class UserProfile extends Component {

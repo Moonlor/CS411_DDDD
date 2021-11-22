@@ -1,4 +1,4 @@
-// import { SendPost, GetPosts, GetPostByID, DeletePostByID, UpdatePost, AdvSearch } from './service';
+import { SendPost, GetPosts, GetPostByID, DeletePostByID, UpdatePost, AdvSearch } from './service';
 import { getAuthority, getUserInfo } from '@/utils/authority';
 // import { notification } from 'antd';
 
@@ -9,48 +9,48 @@ export default {
     //TODO
   },
 
-  // effects: {
-  //   *get({ payload }, { call, put }) {
-  //     const response = yield call(GetPosts, payload);
-  //     console.log(response)
-  //     yield put({
-  //       type: 'save',
-  //       payload: {
-  //         posts: response.data,
-  //         offset: response.pageNumber,
-  //         limit: response.pageSize,
-  //       },
-  //     });
-  //   },
-  //
-  //   *advSearch({ payload }, { call, put }) {
-  //     const response = yield call(AdvSearch, payload);
-  //     console.log(response)
-  //     yield put({
-  //       type: 'save',
-  //       payload: {
-  //         posts: response.data,
-  //         offset: response.pageNumber,
-  //         limit: response.pageSize,
-  //       },
-  //     });
-  //   },
-  //
-  //   *getByID({ payload }, { call, put }) {
-  //     const response = yield call(GetPostByID, payload);
-  //     console.log(response)
-  //     yield put({
-  //       type: 'save',
-  //       payload: {
-  //         posts: response.data,
-  //       },
-  //     });
-  //   },
-  //
-  //   *deleteByID({ payload }, { call, put }) {
-  //     yield call(DeletePostByID, payload);
-  //   },
-  //
+  effects: {
+    // *get({ payload }, { call, put }) {
+    //   const response = yield call(GetPosts, payload);
+    //   console.log(response)
+    //   yield put({
+    //     type: 'save',
+    //     payload: {
+    //       posts: response.data,
+    //       offset: response.pageNumber,
+    //       limit: response.pageSize,
+    //     },
+    //   });
+    // },
+    //
+    // *advSearch({ payload }, { call, put }) {
+    //   const response = yield call(AdvSearch, payload);
+    //   console.log(response)
+    //   yield put({
+    //     type: 'save',
+    //     payload: {
+    //       posts: response.data,
+    //       offset: response.pageNumber,
+    //       limit: response.pageSize,
+    //     },
+    //   });
+    // },
+    //
+    // *getByID({ payload }, { call, put }) {
+    //   const response = yield call(GetPostByID, payload);
+    //   console.log(response)
+    //   yield put({
+    //     type: 'save',
+    //     payload: {
+    //       posts: response.data,
+    //     },
+    //   });
+    // },
+
+    *deleteByID({ payload }, { call, put }) {
+      yield call(DeletePostByID, payload);
+    },
+
   //   *sendPost({ payload}, { call, put }) {
   //     payload.user_id = getUserInfo();
   //     yield call(SendPost, payload);
@@ -95,6 +95,6 @@ export default {
   //       }
   //     });
   //   },
-  // },
+  },
 
 };

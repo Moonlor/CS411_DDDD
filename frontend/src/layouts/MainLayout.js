@@ -47,18 +47,18 @@ class MainLayout extends Component {
             selectedKeys={[pathName]}
             // onClick={this.handleClick}
             >
-            
+
             <Menu.Item key="/post">
               <Icon type="fire" />
-              {/*<span>*/}
+              <span>
                 <Link className={styles.menuLink} to="/post">Post</Link>
-              {/*</span>*/}
+              </span>
             </Menu.Item>
             <Menu.Item key="/social">
               <Icon type="team" />
-              {/*<span>*/}
+              <span>
                 <Link className={styles.menuLink} to="/social">Social</Link>
-              {/*</span>*/}
+              </span>
             </Menu.Item>
             <SubMenu
               key="sub1"
