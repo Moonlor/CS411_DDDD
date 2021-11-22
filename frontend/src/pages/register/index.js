@@ -114,4 +114,5 @@ class RegisterPage extends Component {
   }
 }
 
-export default Form.create()(RegisterPage);
+// export default Form.create()(RegisterPage);
+export default RegisterPage;

@@ -31,6 +31,8 @@ class PostPage extends Component {
     });
   };
 
+
+
   render() {
     const { limit, offset, postList } = this.props;
 
@@ -66,4 +68,6 @@ class PostPage extends Component {
   }
 }
 
-export default Form.create()(PostPage);
+// export default Form.create()(PostPage);
+
+export default PostPage;

@@ -103,7 +103,7 @@ class MonitorPage extends Component {
               showIcon
             />
           </div>
-          
+
           <Form onSubmit={this.handleOk}>
             <FormItem>
               {getFieldDecorator('provider', {
@@ -172,4 +172,5 @@ class MonitorPage extends Component {
   }
 }
 
-export default Form.create()(MonitorPage);
+// export default Form.create()(MonitorPage);
+export default MonitorPage;

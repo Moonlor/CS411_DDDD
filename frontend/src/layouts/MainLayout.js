@@ -47,33 +47,18 @@ class MainLayout extends Component {
             selectedKeys={[pathName]}
             // onClick={this.handleClick}
             >
-            {/* <Menu.Item key="/monitor">
-              <Icon type="pie-chart" />
-              <span>概览</span>
-            </Menu.Item>
-            <Menu.Item key="/terminal">
-              <Icon type="desktop" />
-              <span>
-                <Link className={styles.menuLink} to="/terminal">容器</Link>
-              </span>
-            </Menu.Item>
-            <Menu.Item key="/image">
-              <Icon type="hdd" />
-              <span>
-                <Link className={styles.menuLink} to="/image">镜像</Link>
-              </span>
-            </Menu.Item> */}
+            
             <Menu.Item key="/post">
               <Icon type="fire" />
-              <span>
+              {/*<span>*/}
                 <Link className={styles.menuLink} to="/post">Post</Link>
-              </span>
+              {/*</span>*/}
             </Menu.Item>
             <Menu.Item key="/social">
               <Icon type="team" />
-              <span>
+              {/*<span>*/}
                 <Link className={styles.menuLink} to="/social">Social</Link>
-              </span>
+              {/*</span>*/}
             </Menu.Item>
             <SubMenu
               key="sub1"

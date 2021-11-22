@@ -20,7 +20,7 @@
   margin: 16px;
 }
 
-    
+
 .background {
   position: absolute;
   top: 0;
@@ -34,5 +34,5 @@
 .menuLink {
   text-decoration: none;
   color: white;
-  display: block；
+  display: block;
 }

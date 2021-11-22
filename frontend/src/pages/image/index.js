@@ -16,7 +16,7 @@ class ImagePage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    
+
   }
 
   stop = (id, ip) => {
@@ -68,4 +68,5 @@ class ImagePage extends Component {
   }
 }
 
-export default Form.create()(ImagePage);
+// export default Form.create()(ImagePage);
+export default ImagePage;

@@ -36,4 +36,5 @@ class PostDetail extends Component {
     }
 }
 
-export default Form.create()(PostDetail);
+// export default Form.create()(PostDetail);
+export default PostDetail;

@@ -29,4 +29,5 @@ class RestaurantPage extends Component {
   }
 }
 
-export default Form.create()(RestaurantPage);
+// export default Form.create()(RestaurantPage);
+export default RestaurantPage;

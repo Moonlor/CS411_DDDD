@@ -77,18 +77,19 @@ class SocialPage extends Component {
             })(
               <Input allowClear style={{ width: '20%' }} />
             )}
-            
+
             <Button type="primary" htmlType="submit">
               Search
             </Button>
-            
+
           </Input.Group>
         </Form>
         {similiarUserList && <Table columns={columns} dataSource={similiarUserList} />}
-        
+
       </div>
     );
   }
 }
 
 export default Form.create()(SocialPage);
+// export default SocialPage;

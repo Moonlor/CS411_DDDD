@@ -188,7 +188,7 @@ class TerminalPage extends Component {
       <Card title={"服务器 " + e.server.ip} key={e.server.ip} size='small' style={{ marginTop: '16px'}}>
         {
           e.containerList.map((c) =>
-            <Card.Grid style={gridStyle} key={c.Id}> 
+            <Card.Grid style={gridStyle} key={c.Id}>
               <ButtonGroup style={{marginRight: '16px', marginBottom: '16px'}}>
                 <Button type="primary" disabled icon="cloud">{`${c.Image}`}</Button>
                 <Button type="primary" disabled icon="tag">{`${c.Id.slice(0, 5)}`}</Button>
@@ -242,7 +242,7 @@ class TerminalPage extends Component {
           </div>
 
           <div style={{ marginBottom: '16px' }}>
-            
+
           </div>
 
           <Form onSubmit={this.handleOk}>
@@ -312,4 +312,5 @@ class TerminalPage extends Component {
   }
 }
 
-export default Form.create()(TerminalPage);
+// export default Form.create()(TerminalPage);
+export default TerminalPage;
