@@ -56,3 +56,17 @@ def update_post():
     ret = rep.update_post()
     r = {'code': 200, 'msg': "", 'data': ret}
     return jsonify(r)
+
+@post_api.route('/api/post/<id>/like', methods=['PUT'])
+def like_post(id):
+    rep = PostRepository()
+    ret = rep.like_post(id)
+    r = {'code': 200, 'msg': "", 'data': ret}
+    return jsonify(r)
+
+@post_api.route('/api/post/<id>/dislike', methods=['PUT'])
+def dislike_post(id):
+    rep = PostRepository()
+    ret = rep.dislike_post(id)
+    r = {'code': 200, 'msg': "", 'data': ret}
+    return jsonify(r)

@@ -183,5 +183,24 @@ class PostRepository(object):
         cnx.close()
         return cursor.rowcount
 
+    def like_post(self, id):
+        cnx = self.connector.open_connection()
+        cursor = cnx.cursor()
+        query = ("UPDATE Post SET likes=likes+1 WHERE post_id=%s")
+        cursor.execute(query, (id,))
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+        return [{'post_id': id}]
+
+    def dislike_post(self, id):
+        cnx = self.connector.open_connection()
+        cursor = cnx.cursor()
+        query = ("UPDATE Post SET likes = likes-1 WHERE post_id=%s AND likes > 1")
+        cursor.execute(query, (id,))
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+        return [{'post_id': id}]
 
 
