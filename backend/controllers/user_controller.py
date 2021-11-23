@@ -64,6 +64,13 @@ def get_profile_follower_by_id(id):
     r = {'code': 200, 'msg': "", 'data': ret, 'pageNumber': offset, 'pageSize': limit, 'total': total}
     return jsonify(r)
 
+@user_api.route('/api/user/follow/<id1>/<id2>', methods=['GET'])
+def check_follow(id1, id2):
+    rep = FollowRepository()
+    ret = rep.check_follow(id1, id2)
+    r = {'code': 200, 'msg': "", 'data': ret}
+    return jsonify(r)
+
 @user_api.route('/api/user/follow/<id1>/<id2>', methods=['POST'])
 def set_profile_follow_by_id_route(id1, id2):
     rep = FollowRepository()

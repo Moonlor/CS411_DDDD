@@ -68,3 +68,11 @@ class FollowRepository(object):
         cursor.close()
         cnx.close()
         return cursor.rowcount
+
+    def check_follow(self, id1, id2):
+        cnx = self.connector.open_connection()
+        cursor = cnx.cursor()
+        query = ("SELECT * FROM Follow WHERE follower_id=%s AND following_id=%s")
+        cursor.execute(query, (id1, id2))
+        profiles = cursor.fetchall()
+        return [len(profiles) > 0]
