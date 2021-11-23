@@ -77,3 +77,25 @@ def delete_profile_follow_by_id(id1, id2):
     rows_affected = rep.delete_profile_follow_by_id(id1, id2)
     r = {'code': 200, 'msg': ""}
     return jsonify(r)
+
+@user_api.route('/api/signup', methods=['POST'])
+def signup():
+    rep = UserRepository()
+    ret = rep.signup()
+    if len(ret) == 0:
+        r = {'code': 403, 'msg': "User Exists"}
+        return jsonify(r)
+    else :
+        r = {'code': 200, 'msg': "", 'data': ret}
+        return jsonify(r)
+
+@user_api.route('/api/login', methods=['PUT'])
+def login():
+    rep = UserRepository()
+    ret = rep.login()
+    if ret == 0:
+        r = {'code': 401, 'msg': "Illegal User"}
+        return jsonify(r)
+    else:
+        r = {'code': 200, 'msg': ""}
+        return jsonify(r)
