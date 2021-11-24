@@ -3,6 +3,7 @@ import json
 from flask import request
 from utils.utils import datetime_to_string, string_to_datetime
 from utils.connection import Connector
+import datetime
 
 class FollowRepository(object):
     def __init__(self):
@@ -45,15 +46,14 @@ class FollowRepository(object):
         return ret, total
 
     def set_profile_follow_by_id(self, id1, id2):
-        params = request.json
-        id = params.get('id')
-        # format to be decided
-        date = params.get('date')
-        converted_birth_data = string_to_datetime(date)
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
+        query = ("SELECT MAX(id) FROM Follow")
+        cursor.execute(query, )
+        max_id = cursor.fetchall()[0][0]
         query = ("INSERT INTO Follow(id, follower_id, following_id, date) VALUES(%s, %s, %s, %s)")
-        cursor.execute(query, (id, id1, id2, converted_birth_data))
+        cursor.execute(query, (max_id+1, id1, id2, datetime.datetime.strptime(now, "%Y-%m-%d %H:%M:%S")))
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -68,11 +68,3 @@ class FollowRepository(object):
         cursor.close()
         cnx.close()
         return cursor.rowcount
-
-    def check_follow(self, id1, id2):
-        cnx = self.connector.open_connection()
-        cursor = cnx.cursor()
-        query = ("SELECT * FROM Follow WHERE follower_id=%s AND following_id=%s")
-        cursor.execute(query, (id1, id2))
-        profiles = cursor.fetchall()
-        return len(profiles) > 0
