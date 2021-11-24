@@ -1,25 +1,84 @@
-// import request from '@/utils/request';
-// import { DOMAIN, OFFSET, LIMIT } from '@/utils/constants';
+import request from '@/utils/request';
+import { DOMAIN, OFFSET, LIMIT } from '@/utils/constants';
+import {getUserInfo} from "../../utils/authority";
 //
-// export async function GetPosts(params) {
-//   var url = new URL(`${DOMAIN}/api/posts`);
-//   url.search = new URLSearchParams({ offset: params.offset, limit: params.limit }).toString()
-//   return request(url, {
-//     method: 'GET'
-//   });
-// }
-//
-// export async function GetPostByID(params) {
-//   return request(`${DOMAIN}/api/post/${params.post_id}`, {
-//     method: 'GET',
-//   });
-// }
-//
-// export async function DeletePostByID(params) {
-//   return request(`${DOMAIN}/api/post/${params.post_id}`, {
-//     method: 'DELETE',
-//   });
-// }
+
+export async function GetUserByUserId(params) {
+  var url = new URL(`${DOMAIN}/api/user/${params.userId}`);
+  url.search = new URLSearchParams({}).toString()
+  return request(url, {
+    method: 'GET'
+  });
+}
+
+export async function GetPosts(params) {
+  var url = new URL(`${DOMAIN}/api/posts`);
+  url.search = new URLSearchParams({ offset: params.offset, limit: params.limit }).toString()
+  return request(url, {
+    method: 'GET'
+  });
+}
+
+export async function GetPostsByUserId(params) {
+  var url = new URL(`${DOMAIN}/api/user/${params.userId}/posts`);
+  url.search = new URLSearchParams({ offset: params.offset, limit: params.limit }).toString()
+  // console.log("getPostsByUsreId search url", url);
+  return request(url, {
+    method: 'GET'
+  });
+}
+
+export async function GetFollowers(params) {
+  var url = new URL(`${DOMAIN}/api/user/${params.userId}/follower`);
+  url.search = new URLSearchParams({ offset: params.offset, limit: params.limit }).toString()
+  // console.log("getFollower search url", url);
+  return request(url, {
+    method: 'GET'
+  });
+}
+
+export async function GetFollowing(params) {
+  var url = new URL(`${DOMAIN}/api/user/${params.userId}/following`);
+  url.search = new URLSearchParams({offset: params.offset, limit: params.limit}).toString()
+  // console.log("getFollowing search url", url);
+  return request(url, {
+    method: 'GET'
+  });
+}
+
+export async function GetCheckFollow(params) {
+  // params: {userId: userId, followerList: [{user1}, {user2}, ...]}
+  var url = new URL(`${DOMAIN}/api/user/follow/${params.userId}/${params.otherId}`);
+  url.search = new URLSearchParams().toString()
+  console.log("getCheckFollow search url", url);
+  return request(url, {
+    method: 'GET'
+  });
+}
+
+export async function FollowUser(params) {
+  var url = new URL(`${DOMAIN}/api/user/follow/${params.user1}/${params.user2}`);
+  url.search = new URLSearchParams().toString()
+  console.log("followUser search url", url);
+  return request(url, {
+    method: 'POST'
+  });
+}
+
+export async function UnfollowUser(params) {
+  var url = new URL(`${DOMAIN}/api/user/follow/${params.user1}/${params.user2}`);
+  url.search = new URLSearchParams().toString()
+  console.log("followUser search url", url);
+  return request(url, {
+    method: 'DELETE'
+  });
+}
+
+export async function DeletePostByID(params) {
+  return request(`${DOMAIN}/api/post/${params.post_id}`, {
+    method: 'DELETE',
+  });
+}
 //
 // export async function SendPost(params) {
 //   return request(`${DOMAIN}/api/post`, {

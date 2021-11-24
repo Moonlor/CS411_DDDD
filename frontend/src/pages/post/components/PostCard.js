@@ -76,6 +76,9 @@ class PostCard extends Component {
                         search: `?post_id=${post.post_id}`
                     }}
                 >< Icon type="more" /></Link>)
+
+            // products onclick
+            // actions.push(<Icon type="delete" onClick={this.delete.bind(this, post.post_id)}/>)
         }
 
         if (post.user_id === getUserInfo()) {
@@ -86,12 +89,12 @@ class PostCard extends Component {
         return (
             <div>
                 <Card hoverable
-                    cover={
-                        <img
-                            alt="example"
-                            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                        />
-                    }
+                    // cover={
+                    //     <img
+                    //         alt="example"
+                    //         src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                    //     />
+                    // }
                     actions={actions}
                 >
                     <Meta
