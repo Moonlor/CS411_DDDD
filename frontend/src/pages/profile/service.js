@@ -68,7 +68,7 @@ export async function GetCheckFollow(params) {
   // params: {userId: userId, followerList: [{user1}, {user2}, ...]}
   var url = new URL(`${DOMAIN}/api/user/follow/${params.userId}/${params.otherId}`);
   url.search = new URLSearchParams().toString()
-  console.log("getCheckFollow search url", url);
+  // console.log("getCheckFollow search url", url);
   return request(url, {
     method: 'GET'
   });
@@ -98,6 +98,17 @@ export async function DeletePostByID(params) {
   });
 }
 
+export async function UpdateProfile(params) {
+  var url = new URL(`${DOMAIN}/api/user/${params.userInfo.user_id}/profile/`);
+
+  url.search = new URLSearchParams().toString()
+  console.log("update profile url: ", url);
+  console.log("body: ", JSON.stringify(params.userInfo));
+  return request(url, {
+    method: 'PUT',
+    body: JSON.stringify(params.userInfo)
+  });
+}
 //
 // export async function SendPost(params) {
 //   return request(`${DOMAIN}/api/post`, {

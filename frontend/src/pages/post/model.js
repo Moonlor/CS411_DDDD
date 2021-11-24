@@ -77,6 +77,8 @@ export default {
         message: 'You just updated a post!'
       })
     },
+
+
   },
 
   reducers: {

@@ -21,7 +21,7 @@ class FormEditor extends Component {
         super(props);
         this.state = {};
     }
-    
+
     render() {
         const { getFieldDecorator } = this.props.form
         const { edit, loading, restaurantList } = this.props
@@ -56,7 +56,7 @@ class FormEditor extends Component {
                         )}
                     </FormItem>}
 
-                    {!edit && <FormItem label="Resuaurant">
+                    {!edit && <FormItem label="Restaurant">
                         {getFieldDecorator('restaurants', {
                             rules: [{
                                 required: true,
@@ -75,7 +75,7 @@ class FormEditor extends Component {
                             >{options}</Select>
                         )}
                     </FormItem>}
-                    
+
                     <FormItem label="Text">
                         {getFieldDecorator('content', {
                             validateTrigger: 'onBlur',

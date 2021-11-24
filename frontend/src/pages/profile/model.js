@@ -1,16 +1,16 @@
 import {
   DeletePostByID, GetPostsByUserId,
   GetFollowers, GetFollowing, GetUserByUserId, GetCheckFollow,
-  FollowUser, UnfollowUser,} from './service';
+  FollowUser, UpdateProfile, UnfollowUser,} from './service';
 import { getAuthority, getUserInfo } from '@/utils/authority';
-// import { notification } from 'antd';
+import { notification } from 'antd';
 
 export default {
   namespace: 'profile',
 
   state: {
     userInfo: {},
-    subPageIdx: 1,
+    subPageIdx: 0,
     postList: [],
     followerList: [],
     followingList: [],
@@ -68,7 +68,7 @@ export default {
       console.log("getFollowMap responses: ", responses);
       let newMap = new Map();
       responses.forEach((response) => {
-        const followerId = response.data[0].user2, followed = response.data[0];
+        const followerId = response.data[0].user2, followed = response.data[0].followed[0];
         newMap.set(followerId, followed);
       })
       yield put({
@@ -82,7 +82,7 @@ export default {
 
     *getFollowing({ payload }, { call, put }) {
       const response = yield call(GetFollowing, payload);
-      // console.log("getFollowing response: ", response);
+      console.log("getFollowing response: ", response);
 
       yield put({
         type: 'saveFollowing',
@@ -103,46 +103,16 @@ export default {
       const response = yield call(UnfollowUser, payload);
 
     },
-    //
-    // *getByID({ payload }, { call, put }) {
-    //   const response = yield call(GetPostByID, payload);
-    //   console.log(response)
-    //   yield put({
-    //     type: 'save',
-    //     payload: {
-    //       posts: response.data,
-    //     },
-    //   });
-    // },
 
     *deleteByID({ payload }, { call, put }) {
       yield call(DeletePostByID, payload);
     },
-
-    // *sendPost({ payload}, { call, put }) {
-    //   payload.user_id = getUserInfo();
-    //   yield call(SendPost, payload);
-    //   const response = yield call(GetPosts, {limit: payload.limit, offset: payload.offset});
-    //   yield put({
-    //     type: 'save',
-    //     payload: {
-    //       posts: response.data,
-    //       offset: response.pageNumber,
-    //       limit: response.pageSize,
-    //     },
-    //   });
-    //   notification.success({
-    //     message: 'You just sent a post!'
-    //   })
-    // },
-
-    // *updatePost({ payload }, { call, put }) {
-    //   payload.user_id = getUserInfo();
-    //   yield call(UpdatePost, payload);
-    //   notification.success({
-    //     message: 'You just updated a post!'
-    //   })
-    // },
+    *updateProfile({ payload }, { call, put }){
+      yield call(UpdateProfile, payload);
+      notification.success({
+        message: 'Profile Updated.'
+      })
+    },
   },
 
   reducers: {
