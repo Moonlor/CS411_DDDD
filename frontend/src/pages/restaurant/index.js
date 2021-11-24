@@ -21,11 +21,9 @@ class RestaurantPage extends Component {
 
   render() {
     const { limit, offset } = this.props;
-    console.log("restaurant limit offset: ", limit, offset);
 
     return (
       <div>
-        {limit}{offset}
       </div>
     );
   }

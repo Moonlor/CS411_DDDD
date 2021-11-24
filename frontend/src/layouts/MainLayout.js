@@ -51,7 +51,7 @@ class MainLayout extends Component {
             <Menu.Item key="/post">
               <Icon type="fire" />
               <span>
-                <Link className={styles.menuLink} to="/post">Posts</Link>
+                <Link className={styles.menuLink} to="/post">Post</Link>
               </span>
             </Menu.Item>
             <Menu.Item key="/social">

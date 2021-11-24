@@ -35,8 +35,6 @@ class PostPage extends Component {
 
   render() {
     const { limit, offset, postList } = this.props;
-    console.log("post props: ", this.props);
-    console.log("post props.postList: ", postList);
 
     let posts;
     if (postList) {
