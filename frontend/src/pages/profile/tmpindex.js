@@ -89,7 +89,7 @@ class UserProfile extends Component {
   //   });
   // }
 
-  handleClick = (e)=>{
+  handleClick(e){
     const { dispatch } = this.props;
     dispatch({
       type: 'profile/saveSubPageIdx',
@@ -164,24 +164,24 @@ class UserProfile extends Component {
                 const birthMonth = birth.month, birthYear = birth.year;
                 return (
                   <Card type="inner" title={follower.first_name + " " + follower.last_name}
-                    // extra={<Link
-                    //   to={{
-                    //     pathname: '/user/detail',
-                    //     search: `?post_id=${post.post_id}`
-                    //   }}
-                    // >
+                        // extra={<Link
+                        //   to={{
+                        //     pathname: '/user/detail',
+                        //     search: `?post_id=${post.post_id}`
+                        //   }}
+                        // >
                     // < Icon type="more" /></Link>}
                     // actions={
                     //   followMap.get(follower.user_id)?
                     //   [<Button  onClick={()=>this.followUser(follower.user_id)}> <UserAddOutlined />Follow</Button>]:
                     //   []
                     // }
-                        actions={
-                          followMap.get(follower.user_id)?
-                            [<Button  onClick={()=>this.followUser(follower.user_id)}> <UserAddOutlined />Follow</Button>]:
-                            []
-                        }
-                  >
+                      actions={
+                        followMap.get(follower.user_id)?
+                          [<Button  onClick={()=>this.followUser(follower.user_id)}> <UserAddOutlined />Follow</Button>]:
+                          []
+                      }
+                    >
                     <p>Born in {birthMonth} {birthYear}</p>
                   </Card>
                 );
@@ -207,9 +207,9 @@ class UserProfile extends Component {
                     //   }}
                     // >
                     // < Icon type="more" /></Link>}
-                        actions={
-                          [<Button  onClick={()=>this.unfollowUser(following.user_id)}> <UserDeleteOutlined />Unfollow</Button>]
-                        }
+                    actions={
+                      [<Button  onClick={()=>this.unfollowUser(following.user_id)}> <UserDeleteOutlined />Unfollow</Button>]
+                    }
                   >
                     <p>Born in {birthMonth} {birthYear}</p>
                   </Card>

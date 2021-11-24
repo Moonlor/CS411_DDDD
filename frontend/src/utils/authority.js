@@ -8,7 +8,7 @@ export function setAuthority(token) {
 }
 
 export function getUserInfo() {
-  return "is1fpGG9J8Zq19OGi67DxA";
+  return "GNOX8PWWmaeKO1_3UlTygg";
   // return JSON.parse(localStorage.getItem('docker-mgr-profile'));
 }
 
