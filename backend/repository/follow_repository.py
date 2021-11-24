@@ -75,4 +75,4 @@ class FollowRepository(object):
         query = ("SELECT * FROM Follow WHERE follower_id=%s AND following_id=%s")
         cursor.execute(query, (id1, id2))
         profiles = cursor.fetchall()
-        return len(profiles) > 0
+        return [len(profiles) > 0]
