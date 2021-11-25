@@ -83,12 +83,12 @@ export default {
         const otherId = response.data[0].user2, followed = response.data[0].followed[0];
         newMap.set(otherId, followed);
       })
-      // yield put({
-      //   type: 'saveFollowMap',
-      //   payload: {
-      //     followMap: newMap
-      //   },
-      // });
+      yield put({
+        type: 'saveFollowMap',
+        payload: {
+          followMap: newMap
+        },
+      });
     },
 
     *getFollowing({ payload }, { call, put }) {
@@ -147,11 +147,14 @@ export default {
       return { ...state, followerList, numFollowers};
     },
     saveFollowMap(state, { payload: { followMap} }){
-      console.log("save: followMap ", followMap)
       const oldMap = new Map(state.followMap);
-      followMap.forEach((key, value) => {
+      // console.log("save: followMap", followMap)
+      // console.log("save: oldMap before ", oldMap)
+      followMap.forEach((value, key) => {
+        // console.log("key: ", key, "value: ", value);
         oldMap.set(key, value);
       })
+      // console.log("save: oldMap ", oldMap)
       return { ...state, followMap: oldMap};
     }
   },

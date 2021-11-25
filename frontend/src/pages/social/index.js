@@ -20,7 +20,7 @@ class SocialPage extends Component {
   }
 
   followUser = (otherId) => {
-    const { dispatch} = this.props;
+    const { dispatch, similiarUserList} = this.props;
     const userId = getUserInfo();
     console.log("sending follow request...")
     dispatch({
@@ -31,16 +31,31 @@ class SocialPage extends Component {
       },
     });
 
+    dispatch({
+      type: 'profile/getFollowMap',
+      payload: {
+        userId: userId,
+        userList: similiarUserList
+      },
+    });
   }
 
   unfollowUser = (otherId) => {
-    const { dispatch} = this.props;
+    const { dispatch, similiarUserList} = this.props;
     const userId = getUserInfo();
     dispatch({
       type: 'profile/unfollowUser',
       payload: {
         user1: userId,
         user2: otherId
+      },
+    });
+
+    dispatch({
+      type: 'profile/getFollowMap',
+      payload: {
+        userId: userId,
+        userList: similiarUserList
       },
     });
 
@@ -69,6 +84,7 @@ class SocialPage extends Component {
   render() {
     const { limit, offset, similiarUserList, followMap } = this.props;
     const { getFieldDecorator } = this.props.form
+    console.log("followMap: ", followMap);
     const columns = [
       {
         title: 'Name',
@@ -83,7 +99,9 @@ class SocialPage extends Component {
       {
         title: 'Action',
         key: 'action',
-        render: (text, record) => (
+        render: (text, record) => {
+          // console.log("record: ", record, "map result: ", followMap.get(record.user_id));
+          return (
           <span>
             {
               followMap.get(record.user_id)?
@@ -91,7 +109,8 @@ class SocialPage extends Component {
                 [<Button  onClick={()=>this.followUser(record.user_id)}> <UserAddOutlined />Follow</Button>]
             }
           </span>
-            ),
+            )
+        },
       },
     ]
 
@@ -150,7 +169,7 @@ class SocialPage extends Component {
               )}
               {getFieldDecorator('tag2', {
                 validateTrigger: ["onChange", "onBlur"],
-                initialValue: "Chinese",
+                initialValue: "American",
                 rules: [
                   {
                     required: true,

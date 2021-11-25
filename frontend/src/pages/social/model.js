@@ -14,7 +14,15 @@ export default {
   effects: {
     *searchSimiliar({ payload }, { call, put }) {
       const response = yield call(SearchSimiliar, payload);
-      console.log(response)
+      console.log("similiarList: ", response.data)
+      yield put({
+        type: 'profile/getFollowMap',
+        payload: {
+          userId: getUserInfo(),
+          userList: response.data
+        },
+      });
+
       yield put({
         type: 'save',
         payload: {
@@ -24,13 +32,6 @@ export default {
         },
       });
 
-      yield put({
-        type: 'profile/getFollowMap',
-        payload: {
-          userId: payload.userList,
-          userList: response.data
-        },
-      });
     },
   },
 

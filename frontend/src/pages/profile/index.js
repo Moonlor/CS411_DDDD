@@ -238,8 +238,9 @@ const UserProfile = (props) => {
                   //   }}
                   // >
                   // < Icon type="more" /></Link>}
-                      actions={
-                        [<Button  onClick={()=>unfollowUser(following.user_id)}> <UserDeleteOutlined />Unfollow</Button>]
+                      actions={followMap.get(following.user_id)?
+                        [<Button  onClick={()=>unfollowUser(following.user_id)}> <UserAddOutlined />Unfollow</Button>]:
+                        [<Button  onClick={()=>followUser(following.user_id)}> <UserAddOutlined />Follow</Button>]
                       }
                 >
                   <p>Born in {birthMonth} {birthYear}</p>
