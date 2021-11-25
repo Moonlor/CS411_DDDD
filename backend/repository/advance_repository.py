@@ -13,7 +13,7 @@ class AdvanceRepository(object):
         string = """select {}
                 FROM
                 (
-                    select concat(first_name, ' ', last_name) name, email
+                    select concat(first_name, ' ', last_name) name, email, user_id
                     from User
                     where user_id in (
                         select u.user_id
@@ -27,7 +27,7 @@ class AdvanceRepository(object):
                     )
                 ) as first
                 inner join
-                (select concat(first_name, ' ', last_name) name, email
+                (select concat(first_name, ' ', last_name) name, email, user_id
                     from User
                     where user_id in (
                         select u.user_id
@@ -44,7 +44,7 @@ class AdvanceRepository(object):
         query = string.format("COUNT(*)", c1, c2, "")
         cursor.execute(query)
         total = cursor.fetchone()[0]
-        query = string.format("first.name, first.email", c1, c2, f"LIMIT {limit} OFFSET {offset-1}")
+        query = string.format("first.name, first.email, first.user_id", c1, c2, f"LIMIT {limit} OFFSET {offset-1}")
         cursor.execute(query)
         profiles = cursor.fetchall()
         row_headers = [x[0] for x in cursor.description]
