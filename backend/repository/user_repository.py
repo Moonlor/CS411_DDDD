@@ -86,9 +86,18 @@ class UserRepository(object):
         query = ("SELECT * FROM User WHERE email=%s AND password=%s")
         cursor.execute(query, (email, password))
         profiles = cursor.fetchall()
-        ret = len(profiles)
+        row_headers = [x[0] for x in cursor.description]
+        ret = []
+        for p in profiles:
+            p = list(p)
+            datetime_to_string(p)
+            ret.append(dict(zip(row_headers, p)))
         cursor.close()
         cnx.close()
-        return ret
+        if len(ret) > 0:
+            return [{"user_id": ret[0]['user_id']}]
+        else:
+            return []
+
 
 

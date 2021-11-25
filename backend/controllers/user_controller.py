@@ -100,9 +100,9 @@ def signup():
 def login():
     rep = UserRepository()
     ret = rep.login()
-    if ret == 0:
+    if len(ret) == 0:
         r = {'code': 401, 'msg': "Illegal User"}
         return jsonify(r)
     else:
-        r = {'code': 200, 'msg': ""}
+        r = {'code': 200, 'msg': "", "data": ret}
         return jsonify(r)
