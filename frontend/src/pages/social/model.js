@@ -23,6 +23,14 @@ export default {
           limit: response.pageSize,
         },
       });
+
+      yield put({
+        type: 'profile/getFollowMap',
+        payload: {
+          userId: payload.userList,
+          userList: response.data
+        },
+      });
     },
   },
 

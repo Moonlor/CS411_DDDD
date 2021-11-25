@@ -3,7 +3,7 @@ import { DOMAIN, LIMIT, OFFSET } from '@/utils/constants';
 
 export async function SearchSimiliar(params) {
   var url = new URL(`${DOMAIN}/api/advance/similar/${params.tag1}/${params.tag2}`);
-  console.log(LIMIT)
+  // console.log(LIMIT)
   if (!params.offset) {
     params.offset = OFFSET;
     params.limit = LIMIT;

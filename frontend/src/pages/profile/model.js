@@ -60,24 +60,35 @@ export default {
         },
       });
 
+      yield put({
+        type: 'getFollowMap',
+        payload: {
+          userId: payload.userId,
+          userList: followerList
+        },
+      });
+
+    },
+
+    *getFollowMap({ payload }, { call, put }) {
+      const userId = payload.userId, userList = payload.userList;
       // update followMap
-      const responses = yield followerList.map((follower)=>
-        call(GetCheckFollow, { userId: payload.userId, otherId: follower.user_id})
+      const responses = yield userList.map((other)=>
+        call(GetCheckFollow, { userId: userId, otherId: other.user_id})
       );
       // const response1 = yield [call(GetCheckFollow, { userId: payload.userId, otherId: followerList[0].user_id})];
       console.log("getFollowMap responses: ", responses);
       let newMap = new Map();
       responses.forEach((response) => {
-        const followerId = response.data[0].user2, followed = response.data[0].followed[0];
-        newMap.set(followerId, followed);
+        const otherId = response.data[0].user2, followed = response.data[0].followed[0];
+        newMap.set(otherId, followed);
       })
-      yield put({
-        type: 'saveFollowMap',
-        payload: {
-          followMap: newMap
-        },
-      });
-
+      // yield put({
+      //   type: 'saveFollowMap',
+      //   payload: {
+      //     followMap: newMap
+      //   },
+      // });
     },
 
     *getFollowing({ payload }, { call, put }) {
@@ -137,20 +148,27 @@ export default {
     },
     saveFollowMap(state, { payload: { followMap} }){
       console.log("save: followMap ", followMap)
-      return { ...state, followMap};
+      const oldMap = new Map(state.followMap);
+      followMap.forEach((key, value) => {
+        oldMap.set(key, value);
+      })
+      return { ...state, followMap: oldMap};
     }
   },
 
   subscriptions: {
-    setup({ dispatch }) {
+    setup({ dispatch, history }) {
       // console.log("setup, dispatching getUser")
       // console.log("setup: ", getUserInfo());
-      const userId = getUserInfo();
-      dispatch({ type: 'getUser', payload: {userId: userId}});
-      dispatch({ type: 'getPosts', payload: {userId: userId, limit: 20, offset: 1 }});
-      dispatch({ type: 'getFollowers', payload: {userId: userId, limit: 20, offset: 1 }});
-      dispatch({ type: 'getFollowing', payload: {userId: userId, limit: 20, offset: 1 }});
-
+      return history.listen(({ pathname, query }) => {
+        const userId = getUserInfo();
+          if ((pathname === '/profile')) {
+            dispatch({ type: 'getUser', payload: {userId: userId}});
+            dispatch({ type: 'getPosts', payload: {userId: userId, limit: 20, offset: 1 }});
+            dispatch({ type: 'getFollowers', payload: {userId: userId, limit: 20, offset: 1 }});
+            dispatch({ type: 'getFollowing', payload: {userId: userId, limit: 20, offset: 1 }});
+          }
+        });
 
       // return history.listen(({ pathname, query }) => {
       //   // let token = getAuthority();
