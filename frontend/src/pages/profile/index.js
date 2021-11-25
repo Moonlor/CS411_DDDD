@@ -1,4 +1,4 @@
-import { Component, useState, useEffect } from 'react';
+import {Component, useState, useEffect, createRef} from 'react';
 import {Avatar, Button, Card, Divider, Menu, Row, Typography, Col, Form, Icon} from 'antd';
 import { UserOutlined, ManOutlined, WomanOutlined, UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
 import { Link, history } from 'umi';
@@ -159,6 +159,8 @@ const UserProfile = (props) => {
   const userBirthMonth = userBirth.month;
   const userBirthYear = userBirth.year;
 
+  const formRef = createRef();
+
   const subPages = [
     // 0: my posts
     (
@@ -250,9 +252,10 @@ const UserProfile = (props) => {
     ),
     // 3: update profile
     (
-      <UpdateProfileForm userInfo={userInfo}/>
+      <UpdateProfileForm userInfo={userInfo} ref={formRef}/>
     )
   ];
+
 
   return (
     <div>
@@ -343,7 +346,7 @@ const UserProfile = (props) => {
   );
 }
 
-export default connect(({ profile }) => ({
+export default Form.create()(connect(({ profile }) => ({
   userInfo: profile.userInfo,
   subPageIdx: profile.subPageIdx,
   postList: profile.postList,
@@ -353,4 +356,4 @@ export default connect(({ profile }) => ({
   numFollowers: profile.numFollowers,
   numFollowing: profile.numFollowing,
   followMap: profile.followMap
-}))(UserProfile);
+}))(UserProfile));

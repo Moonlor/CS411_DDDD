@@ -99,7 +99,7 @@ export async function DeletePostByID(params) {
 }
 
 export async function UpdateProfile(params) {
-  var url = new URL(`${DOMAIN}/api/user/${params.userInfo.user_id}/profile/`);
+  var url = new URL(`${DOMAIN}/api/user/${params.userInfo.user_id}/profile`);
 
   url.search = new URLSearchParams().toString()
   console.log("update profile url: ", url);

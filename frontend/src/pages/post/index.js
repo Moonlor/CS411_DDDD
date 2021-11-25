@@ -68,6 +68,6 @@ class PostPage extends Component {
   }
 }
 
-// export default Form.create()(PostPage);
+export default Form.create()(PostPage);
 
-export default PostPage;
+// export default PostPage;

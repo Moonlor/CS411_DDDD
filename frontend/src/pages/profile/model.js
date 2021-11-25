@@ -22,7 +22,7 @@ export default {
 
   effects: {
     *getUser({ payload: {userId} }, { call, put }){
-      // console.log("getUser: userId ", userId);
+      console.log("getUser: userId ", userId);
       const response = yield call(GetUserByUserId, {userId});
       // console.log("get user by userid: ", response);
       const userInfo = response.data[0];
@@ -117,7 +117,7 @@ export default {
 
   reducers: {
     saveUser(state, { payload: { userInfo} }){
-      // console.log("saveUser: ", userInfo);
+      console.log("saveUser: ", userInfo);
       return {...state, userInfo};
     },
     saveSubPageIdx(state, { payload: { key: subPageIdx } }){

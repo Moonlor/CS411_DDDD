@@ -15,7 +15,7 @@ class UpdateProfileForm extends Component {
     this.state = {};
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = () => {
     // e.preventDefault();
 
     this.props.form.validateFields((error, fieldsValue) => {
@@ -38,6 +38,18 @@ class UpdateProfileForm extends Component {
           userInfo: newUserInfo
         },
       });
+
+      dispatch({
+        type: 'profile/getUser', payload: {userId: newUserInfo.user_id}
+      });
+
+      dispatch({
+        type: 'profile/saveSubPageIdx',
+        payload: {
+          key: 0
+        },
+      });
+
     });
   };
 
