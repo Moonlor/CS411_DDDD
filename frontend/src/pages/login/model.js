@@ -13,16 +13,21 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(accountLogin, payload);
-      yield put({
-        type: 'changeLoginStatus',
-        payload: response,
-      });
-      let token = response.data.token;
       // Login successfully
-      if (response.msg === 'success') {
+      if (response.code === 200) {
+        yield put({
+          type: 'changeLoginStatus',
+          payload: response,
+        });
+        let token = response.data[0].user_id;
         setAuthority(token);
-        setUserInfo(response.data);
+        setUserInfo(token);
         yield put(routerRedux.replace('/'));
+      } else {
+        notification.error({
+          message: response.msg,
+          description: response.code,
+        })
       }
     }
   },
@@ -30,8 +35,8 @@ export default {
   reducers: {
     changeLoginStatus(state, { payload }) {
       notification.success({
-        message: '登陆成功',
-        description: '欢迎登入Docker管理系统',
+        message: 'Login success',
+        description: 'Welcome to delp!',
       })
       return {
         ...state,

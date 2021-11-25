@@ -13,16 +13,22 @@ export default {
   effects: {
     *register({ payload }, { call, put }) {
       const response = yield call(userRegister, payload);
-      let token = response.data.token;
-      notification.success({
-        message: '注册成功',
-        description: '欢迎注册Docker管理系统',
-      })
-      if (response.msg === 'success') {
+      console.log(response);
+      if (response.code === 200) {
 
+        let token = response.data[0].user_id;
+        notification.success({
+          message: 'Congratulation! You have reatead your account!',
+          description: 'Welcome to delp!',
+        })
         setAuthority(token);
-        setUserInfo(response.data);
+        setUserInfo(token);
         yield put(routerRedux.replace('/'));
+      } else {
+        notification.error({
+          message: 'Opps, something went wrong: ' + response.msg,
+          description: 'Create account failed',
+        })
       }
     }
   },

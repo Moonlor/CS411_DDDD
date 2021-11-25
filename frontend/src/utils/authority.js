@@ -1,18 +1,21 @@
 export function getAuthority() {
-  return "is1fpGG9J8Zq19OGi67DxA";
-  // return localStorage.getItem('docker-mgr-token');
+  return localStorage.getItem('delp-token');
 }
 
 export function setAuthority(token) {
-  return localStorage.setItem('docker-mgr-token', token);
+  if (token == null) {
+    return localStorage.removeItem('delp-token');
+  }
+  return localStorage.setItem('delp-token', token);
 }
 
 export function getUserInfo() {
-  // return "GNOX8PWWmaeKO1_3UlTygg";
-  return "is1fpGG9J8Zq19OGi67DxA";
-  // return JSON.parse(localStorage.getItem('docker-mgr-profile'));
+  return JSON.parse(localStorage.getItem('delp-profile'));
 }
 
 export function setUserInfo(data) {
-  return localStorage.setItem('docker-mgr-profile', JSON.stringify(data));
+  if (data == null) {
+    return localStorage.removeItem('delp-profile');
+  }
+  return localStorage.setItem('delp-profile', JSON.stringify(data));
 }

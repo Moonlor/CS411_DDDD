@@ -39,7 +39,7 @@ class LoginPage extends Component {
       <Card
         hoverable
         className={styles.login}
-        title="登录"
+        title="Login"
         style={{ textAlign: "center" }}
       >
         <div>
@@ -51,35 +51,35 @@ class LoginPage extends Component {
           >
             <UserName
               name="email"
-              placeholder={"邮箱地址"}
+              placeholder={"Email"}
               rules={[
                 {
                   required: true,
-                  message: "未填写邮箱地址",
+                  message: "please input email",
                 },
                 {
                   type: 'email',
-                  message: "邮箱格式错误",
+                  message: "wrong email format",
                 }
               ]}
             />
             <Password
               name="password"
-              placeholder={"密码"}
+              placeholder={"password"}
               rules={[
                 {
                   required: true,
-                  message: "未填写密码",
+                  message: "please input password",
                 },
               ]}
               onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
             />
             <Submit loading={submitting}>
-              登录
+              Login
             </Submit>
-            <Card.Meta title="还未注册？" description={
+            <Card.Meta title="Not registered?" description={
               <Link to="/register">
-                注册
+                Create an account
               </Link>
             } />
           </Login>

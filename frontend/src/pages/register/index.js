@@ -1,12 +1,13 @@
 import { Card } from 'antd';
 import { Component } from 'react';
 import Link from 'umi/link';
-import { Form, Input, Button} from 'antd';
+import { Form, Input, Button, Select, DatePicker} from 'antd';
 import { connect } from 'dva';
 
 import styles from './index.css';
 
 const FormItem = Form.Item;
+const { Option } = Select;
 
 @connect(({ registerPage, loading }) => ({
   registerPage,
@@ -24,6 +25,7 @@ class RegisterPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { dispatch } = this.props;
+        values.birth_date = values.birth_date.format("YYYY-MM-DD hh:mm:ss");
         dispatch({
           type: 'userRegister/register',
           payload: {
@@ -43,7 +45,7 @@ class RegisterPage extends Component {
       <Card
         hoverable
         className={styles.register}
-        title="注册"
+        title="Create an account"
         style={{ textAlign: "center" }}
       >
         <div>
@@ -53,27 +55,78 @@ class RegisterPage extends Component {
                 rules: [
                   {
                     required: true,
-                    message: "未填写邮箱地址",
+                    message: "please input email",
                   },
                   {
                     type: 'email',
-                    message: "邮箱格式错误",
+                    message: "wrong email format",
                   },
                 ],
               })(
-                <Input size="large" placeholder={"邮箱"} />
+                <Input size="large" placeholder={"email"} />
               )}
             </FormItem>
             <FormItem>
-              {getFieldDecorator('name', {
+              {getFieldDecorator('first_name', {
                 rules: [
                   {
                     required: true,
-                    message: "未填写用户名",
+                    message: "please input your first name",
                   },
                 ],
               })(
-                <Input size="large" placeholder={"用户名"} />
+                <Input size="large" placeholder={"first name"} />
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('last_name', {
+                rules: [
+                  {
+                    required: true,
+                    message: "please input your last name",
+                  },
+                ],
+              })(
+                <Input size="large" placeholder={"last name"} />
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('mobile', {
+                rules: [
+                  {
+                    required: true,
+                    message: "please input mobile",
+                  }
+                ],
+              })(
+                <Input size="large" placeholder={"mobile"} />
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('gender', {
+                rules: [
+                  {
+                    required: true,
+                    message: "please select your gender",
+                  }
+                ],
+              })(
+                <Select placeholder={'Gender'}>
+                  <Option value={0}>Male</Option>
+                  <Option value={1}>Female</Option>
+                </Select>
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('birth_date', {
+                rules: [
+                  {
+                    required: true,
+                    message: "please input your birthday",
+                  }
+                ],
+              })(
+                <DatePicker placeholder={'Birthday'} style={{ width: '100%' }}/>
               )}
             </FormItem>
             <FormItem>
@@ -81,14 +134,14 @@ class RegisterPage extends Component {
                 rules: [
                   {
                     required: true,
-                    message: "未填写密码",
+                    message: "please input password",
                   }
                 ],
               })(
                 <Input
                   size="large"
                   type="password"
-                  placeholder={"密码"}
+                  placeholder={"password"}
                 />
               )}
             </FormItem>
@@ -99,14 +152,14 @@ class RegisterPage extends Component {
                 type="primary"
                 htmlType="submit"
               >
-                注册
+                Register
               </Button>
             </FormItem>
           </Form>
         </div>
-        <Card.Meta title="已有账号？" description={
+        <Card.Meta title="Already own an account?" description={
           <Link to="/login">
-            登录
+            Login
           </Link>
         } />
       </Card>
@@ -114,5 +167,5 @@ class RegisterPage extends Component {
   }
 }
 
-// export default Form.create()(RegisterPage);
-export default RegisterPage;
+export default Form.create()(RegisterPage);
+// export default RegisterPage;

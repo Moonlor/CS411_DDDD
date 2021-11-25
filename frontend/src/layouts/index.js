@@ -20,18 +20,18 @@ class Root extends Component {
     let token = getAuthority();
 
     if (this.props.location.pathname === '/login') {
-      if (token !== 'null') {
+      if (token != null) {
         this.props.history.push("/");
       }
     }
 
     if (this.props.location.pathname === '/register') {
-      if (token !== 'null') {
+      if (token != null) {
         this.props.history.push("/");
       }
     }
-
-    if (token === 'null') {
+    
+    if (token == null) {
       this.props.history.push("/login");
     }
   }
@@ -41,7 +41,7 @@ class Root extends Component {
     let token = getAuthority();
 
     if (this.props.location.pathname === '/login') {
-      if (token !== 'null') {
+      if (token != null) {
         this.props.history.push("/");
       }
 
@@ -53,7 +53,7 @@ class Root extends Component {
     }
 
     if (this.props.location.pathname === '/register') {
-      if (token !== 'null') {
+      if (token != null) {
         this.props.history.push("/");
       }
 
@@ -63,7 +63,7 @@ class Root extends Component {
       </div>);
     }
 
-    if (token === 'null' || !token) {
+    if (token == null || !token) {
       this.props.history.push("/login");
       return (
         <div>
