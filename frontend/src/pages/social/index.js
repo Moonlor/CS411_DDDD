@@ -101,7 +101,7 @@ class SocialPage extends Component {
           We know this happens sometimes: you love Japanese food, and you also find American food comforting. You can't live without either of them. You just can't.
         </p>
         <p>
-          Now the basic features of Delp can't satisfy you anymore, despite that it's already Delp (READ: DOPE). You feel like other Delp users are just lame; they don't know how it works and they don't understand the art and beauty of food.
+          Now the basic features of Delp can't satisfy you anymore, despite that it's already Delp (READ: DOPE). You feel like other Delp users are boring; they don't understand the art and beauty of food.
         </p>
         <p>
           Ah, you sigh, if only there were someone else who loves both Japanese and American foods!
