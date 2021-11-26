@@ -135,6 +135,23 @@ class PostRepository(object):
         cnx.close()
         return [{'post_id':post_id}]
 
+    # Mention Trigger here:
+    # DROP TRIGGER IF EXISTS MentionTrigger;
+    # CREATE TRIGGER MentionTrigger
+    #      AFTER INSERT ON Mention
+    #         FOR EACH ROW
+    #             BEGIN
+    #             SET @cur_user_id = (
+    #                 SELECT user_id
+    #                 FROM Post
+    #                 WHERE new.post_id = Post.post_id
+    #             );
+    #             IF @cur_user_id IS NOT NULL THEN
+    #                 INSERT INTO CheckIn(restaurant_id, user_id, date)
+    #                 VALUES(new.restaurant_id, @cur_user_id, new.date);
+    #             END IF;
+    #             END;
+
     def create_mention(self, post_id, restaurant_ids, date):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
