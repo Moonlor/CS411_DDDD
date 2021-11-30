@@ -15,6 +15,7 @@ from controllers.comment_controller import post_comment_api
 from controllers.restaurant_controller import restaurant_api
 from controllers.advance_controller import advance_api
 from controllers.sp_controller import sp_api
+from controllers.checkin_controller import checkin_api
 
 app = Flask(__name__)
 app.register_blueprint(search_api)
@@ -28,7 +29,7 @@ app.register_blueprint(post_comment_api)
 app.register_blueprint(restaurant_api)
 app.register_blueprint(advance_api)
 app.register_blueprint(sp_api)
-
+app.register_blueprint(checkin_api)
 
 
 CORS(app, supports_credentials=True)
