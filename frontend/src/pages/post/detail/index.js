@@ -8,6 +8,7 @@ const { Search } = Input;
 
 @connect(({ post, loading }) => ({
     loading: loading.effects['post/getByID'],
+    postDetail: post.postDetail,
     postList: post.postList,
 }))
 class PostDetail extends Component {
@@ -19,13 +20,20 @@ class PostDetail extends Component {
     }
 
     render() {
-        const { postList } = this.props;
+        const { postDetail } = this.props;
+        // const { postList } = this.props;
 
         let posts;
-        if (postList) {
-            posts = postList.map(post => (
-                <PostCard key={post.post_id} post={post}/>
-            ))
+        // if (postList) {
+        //     // posts = postList.map(post => (
+        //     //     <PostCard key={postDetail.post_id} post={postDetail}/>
+        //     // ))
+        // }
+        if (postDetail) {
+          // posts = postList.map(post => (
+          //     <PostCard key={postDetail.post_id} post={postDetail}/>
+          // ))
+          posts = <PostCard key={postDetail.post_id} post={postDetail}/>
         }
 
         return (

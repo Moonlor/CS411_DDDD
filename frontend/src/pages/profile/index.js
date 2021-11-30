@@ -188,8 +188,11 @@ const UserProfile = (props) => {
                           search: `?post_id=${post.post_id}`
                         }}
                       >< Icon type="more" /></Link>}>
-                  <p>{post.text}</p>
+                  {/*<p>{post.text}</p>*/}
+                  <div dangerouslySetInnerHTML={{__html: post.text}}></div>
                 </Card>
+
+                // <PostCard key={post.post_id} post={post}/>
               );
             })
           }

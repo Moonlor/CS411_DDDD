@@ -10,6 +10,7 @@ const { Search } = Input;
 
 @connect(({ post, loading }) => ({
   postList: post.postList,
+  postDetail: post.postDetail,
   offset: post.offset,
   limit: post.limit,
   loading: loading.effects['post/get'],

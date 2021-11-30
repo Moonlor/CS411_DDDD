@@ -7,6 +7,7 @@ export default {
 
   state: {
     postList: undefined,
+    postDetail: undefined,
     offset: undefined,
     limit: undefined,
   },
@@ -42,9 +43,9 @@ export default {
       const response = yield call(GetPostByID, payload);
       console.log(response)
       yield put({
-        type: 'save',
+        type: 'saveDetail',
         payload: {
-          posts: response.data,
+          postDetail: response.data[0],
         },
       });
     },
@@ -84,6 +85,9 @@ export default {
   reducers: {
     save(state, { payload: { posts: postList, limit, offset } }) {
       return { ...state, postList, limit, offset};
+    },
+    saveDetail(state, { payload: { postDetail, limit, offset } }) {
+      return { ...state, postDetail, limit, offset};
     },
   },
 

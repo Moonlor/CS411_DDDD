@@ -86,16 +86,16 @@ class PostCard extends Component {
         return (
             <div>
                 <Card hoverable
-                    cover={
-                        <img
-                            alt="example"
-                            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                        />
-                    }
+                    // cover={
+                    //     <img
+                    //         alt="example"
+                    //         src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                    //     />
+                    // }
                     actions={actions}
                 >
                     <Meta
-                        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                        // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
                         title={post.first_name + " " + post.last_name}
                         description={linkToDetail ? this.cutstr(post.text, 300) : !linkToDetail && <div dangerouslySetInnerHTML={{
                             __html: post.text
