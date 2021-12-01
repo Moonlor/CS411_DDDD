@@ -130,32 +130,6 @@ export default {
 
     },
 
-    // *getCheckinDetails({ payload }, { call, put }) {
-    //   const checkinSimpleList = payload.checkinSimpleList;
-    //   console.log("checkinSimpleList ", checkinSimpleList)
-    //   const responses = yield checkinSimpleList.map((checkin)=>
-    //     call(SearchRestaurantById, { restaurant_id: checkin.restaurant_id})
-    //   );
-    //   // const response1 = yield [call(GetCheckFollow, { userId: payload.userId, otherId: followerList[0].user_id})];
-    //   // console.log("getFollowMap responses: ", responses);
-    //   let checkinList = [];
-    //   responses.forEach((response) => {
-    //     console.log(response);
-    //     checkinList.push(response.data[0]);
-    //   })
-    //
-    //   console.log("checkinList: ", checkinList)
-    //
-    //   yield put({
-    //     type: 'saveCheckins',
-    //     payload: {
-    //       checkinList: checkinList,
-    //       // offset: response.pageNumber,
-    //       // limit: response.pageSize,
-    //     },
-    //   });
-
-    // },
 
     *followUser({ payload }, { call, put }){
       const response = yield call(FollowUser, payload);

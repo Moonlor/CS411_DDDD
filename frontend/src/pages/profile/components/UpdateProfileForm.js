@@ -1,9 +1,11 @@
 import {connect} from "dva";
 import {Component} from "react";
 import BraftEditor from "braft-editor";
-import { Button, Form, Input, DatePicker } from 'antd';
+import { Button, Form, Input, Select, DatePicker } from 'antd';
 import moment from "moment";
+
 const FormItem = Form.Item
+const { Option } = Select;
 
 @connect(({ profile }) => ({
   userInfo: profile.userInfo
@@ -18,18 +20,14 @@ class UpdateProfileForm extends Component {
   handleSubmit = () => {
     // e.preventDefault();
 
-    this.props.form.validateFields((error, fieldsValue) => {
-      const values = {
-        ...fieldsValue,
-        'birth-date': fieldsValue['birth-date'].format('YYYY-MM-DD HH:mm:ss'),
-      }
+    this.props.form.validateFields((error, values) => {
 
       // console.log("form falues: ", values);
       const { userInfo, dispatch } = this.props;
+      values.birth_date = values.birth_date.format("YYYY-MM-DD hh:mm:ss");
       const newUserInfo = {
         ...userInfo,
-        birth_date: values["birth-date"],
-        email: values["email"]
+        ...values
       }
       // console.log("newUserInfo: ", newUserInfo);
       dispatch({
@@ -63,12 +61,69 @@ class UpdateProfileForm extends Component {
     return (
       <div className="editor-wrapper">
         <Form onSubmit={this.handleSubmit} ref={ref}>
-          <Form.Item label="Birth Date">
-            {getFieldDecorator('birth-date', {rules: [{ type: 'object', required: true, message: 'Please select time!' }]})(<DatePicker />)}
-          </Form.Item>
-          <Form.Item label="Email">
-            {getFieldDecorator('email', {rules: [{ type: 'email', required: true, message: 'Please enter email!' }]})(<Input />)}
-          </Form.Item>
+          <FormItem>
+            {getFieldDecorator('first_name', {
+              rules: [
+                {
+                  required: true,
+                  message: "please input your first name",
+                },
+              ],
+            })(
+              <Input size="large" placeholder={"first name"} />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('last_name', {
+              rules: [
+                {
+                  required: true,
+                  message: "please input your last name",
+                },
+              ],
+            })(
+              <Input size="large" placeholder={"last name"} />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('mobile', {
+              rules: [
+                {
+                  required: true,
+                  message: "please input mobile",
+                }
+              ],
+            })(
+              <Input size="large" placeholder={"mobile"} />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('gender', {
+              rules: [
+                {
+                  required: true,
+                  message: "please select your gender",
+                }
+              ],
+            })(
+              <Select placeholder={'Gender'}>
+                <Option value={0}>Male</Option>
+                <Option value={1}>Female</Option>
+              </Select>
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('birth_date', {
+              rules: [
+                {
+                  required: true,
+                  message: "please input your birthday",
+                }
+              ],
+            })(
+              <DatePicker placeholder={'Birthday'} style={{ width: '100%' }}/>
+            )}
+          </FormItem>
           <Form.Item
             wrapperCol={{
               xs: { span: 24, offset: 0 },
