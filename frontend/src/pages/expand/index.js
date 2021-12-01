@@ -43,7 +43,7 @@ class ExpandPage extends Component {
         const whatIs = (
             <div>
                 <p>
-                    New here? Using our advanced quick expanding function! Automatically follow all people with hot posts and get more inspirations!
+                    New here? Using our advanced fast expanding function! Automatically follow all people with hot posts and get more inspirations!
                 </p>
                 
             </div>
@@ -63,7 +63,7 @@ class ExpandPage extends Component {
 
         return (
             <div>
-                <Title level={3}>Quick expanding your social network! Get more inspirations! </Title>
+                <Title level={3}>Quickly expanding your social network! Get more inspirations! </Title>
                 <div style={{ padding: "0 0 10px 0" }}>
                     <Collapse>
                         <Panel header="What Is This?" key="1">
