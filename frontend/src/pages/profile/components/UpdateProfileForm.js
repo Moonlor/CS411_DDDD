@@ -41,12 +41,14 @@ class UpdateProfileForm extends Component {
         type: 'profile/getUser', payload: {userId: newUserInfo.user_id}
       });
 
-      dispatch({
-        type: 'profile/saveSubPageIdx',
-        payload: {
-          key: 0
-        },
-      });
+      // dispatch({
+      //   type: 'profile/saveSubPageIdx',
+      //   payload: {
+      //     key: 0
+      //   },
+      // });
+
+      this.props.history.push("/profile")
 
     });
   };
