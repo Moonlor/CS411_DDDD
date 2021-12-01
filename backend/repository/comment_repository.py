@@ -81,7 +81,7 @@ class CommentRepository(object):
     def delete_post_comment_by_post_comment_id(self, id):
         cnx = self.connector.open_connection()
         cursor = cnx.cursor()
-        cursor.execute("DELETE FROM Post_Comment WHERE post_comment_id={}".format(id))
+        cursor.execute("DELETE FROM Post_Comment WHERE post_comment_id='{}'".format(id))
         count = cursor.rowcount
         cnx.commit()
         cursor.close()
