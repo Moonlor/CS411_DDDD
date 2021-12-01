@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { Row, Col, Form, Input } from 'antd';
 import { connect } from 'dva';
 import { getUserInfo } from '@/utils/authority';
+import CommentCard from '@/pages/comment/components/CommentCard';
 import PostCard from '../components/PostCard';
 
 const { Search } = Input;
@@ -38,7 +39,12 @@ class PostDetail extends Component {
 
         return (
             <div>
-                {posts}
+                <div>
+                    {posts}
+                </div>
+                <div>
+                    {postDetail ? <CommentCard post_id={postDetail.post_id} /> : undefined}
+                </div>
             </div>
         );
     }

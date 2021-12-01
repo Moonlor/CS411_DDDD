@@ -197,7 +197,7 @@ const UserProfile = (props) => {
                           pathname: '/post/detail',
                           search: `?post_id=${post.post_id}`
                         }}
-                      >< Icon type="more" /></Link>}>
+                  >< Icon type="more" /></Link>} key={post.post_id}>
                   {/*<p>{post.text}</p>*/}
                   <div dangerouslySetInnerHTML={{__html: post.text}}></div>
                 </Card>
@@ -218,7 +218,8 @@ const UserProfile = (props) => {
               const birth = getBirth(follower.birth_date);
               const birthMonth = birth.month, birthYear = birth.year;
               return (
-                <Card type="inner" title={follower.first_name + " " + follower.last_name}
+                <Card type="inner" title={follower.first_name + " " + follower.last_name} 
+                  key={follower.user_id}
                       actions={
                         followMap.get(follower.user_id)?
                           [<Button  onClick={()=>unfollowUser(follower.user_id)}> <UserAddOutlined />Unfollow</Button>]:
@@ -242,7 +243,7 @@ const UserProfile = (props) => {
               const birth = getBirth(following.birth_date);
               const birthMonth = birth.month, birthYear = birth.year;
               return (
-                <Card type="inner" title={following.first_name + " " + following.last_name}
+                <Card type="inner" title={following.first_name + " " + following.last_name} key={following.user_id}
                   // extra={<Link
                   //   to={{
                   //     pathname: '/user/detail',
@@ -279,11 +280,12 @@ const UserProfile = (props) => {
                     pathname: '/restaurant/detail',
                     search: `?restaurant_id=${restaurant.restaurant_id}`
                   }}
-                >{restaurant.name}</Link>}>
+              >{restaurant.name}</Link>} 
+              key={`?restaurant_id=${restaurant.restaurant_id}`}>
                 {/*<Card type="inner" title={<Button type="link">{restaurant.name}</Button>}>*/}
                   <p>
                     { getCategories(restaurant).map( (category) =>(
-                      <Tag>{category}</Tag>
+                      <Tag key={category}>{category}</Tag>
                     ))}
                   </p>
                   <p>Checked In on {restaurant.date}</p>

@@ -83,6 +83,8 @@ class PostCard extends Component {
             actions.push(<Icon type="delete" onClick={this.delete.bind(this, post.post_id)}/>)
         }
 
+        const avatar_src = 'https://joeschmoe.io/api/v1/random?id=' + post.last_name
+
         return (
             <div>
                 <Card hoverable
@@ -95,7 +97,7 @@ class PostCard extends Component {
                     actions={actions}
                 >
                     <Meta
-                        // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                        avatar={<Avatar src={avatar_src} />}
                         title={post.first_name + " " + post.last_name}
                         description={linkToDetail ? this.cutstr(post.text, 300) : !linkToDetail && <div dangerouslySetInnerHTML={{
                             __html: post.text
