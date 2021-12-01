@@ -1,4 +1,4 @@
-import { GetByPostID, DeleteCommentByID, SendComment } from './service';
+import { GetByPostID, DeleteCommentByID, SendComment} from './service';
 import moment from 'moment';
 import { getAuthority, getUserInfo } from '@/utils/authority';
 import { notification } from 'antd';

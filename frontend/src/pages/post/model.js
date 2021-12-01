@@ -1,4 +1,4 @@
-import { SendPost, GetPosts, GetPostByID, DeletePostByID, UpdatePost, AdvSearch } from './service';
+import { SendPost, GetPosts, GetPostByID, DeletePostByID, UpdatePost, AdvSearch, LikeByID, DislikeByID  } from './service';
 import { getAuthority, getUserInfo } from '@/utils/authority';
 import { notification } from 'antd';
 
@@ -77,6 +77,37 @@ export default {
       notification.success({
         message: 'You just updated a post!'
       })
+    },
+
+
+    *like({ payload }, { call, put }) {
+      yield call(LikeByID, payload);
+
+      const response = yield call(GetPosts, payload);
+      yield put({
+        type: 'save',
+        payload: {
+          posts: response.data,
+          offset: response.pageNumber,
+          limit: response.pageSize,
+        },
+      });
+
+    },
+
+    *dislike({ payload }, { call, put }) {
+      yield call(DislikeByID, payload);
+
+      const response = yield call(GetPosts, payload);
+      yield put({
+        type: 'save',
+        payload: {
+          posts: response.data,
+          offset: response.pageNumber,
+          limit: response.pageSize,
+        },
+      });
+
     },
 
 

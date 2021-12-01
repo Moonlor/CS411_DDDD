@@ -60,6 +60,12 @@ class MainLayout extends Component {
                 <Link className={styles.menuLink} to="/social">Social</Link>
               </span>
             </Menu.Item>
+            <Menu.Item key="/expand">
+              <Icon type="fullscreen" />
+              <span>
+                <Link className={styles.menuLink} to="/expand">Expand</Link>
+              </span>
+            </Menu.Item>
             <SubMenu
               key="sub1"
               title={

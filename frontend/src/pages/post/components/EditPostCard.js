@@ -24,7 +24,7 @@ class EditPostCard extends Component {
         const showModal = () => {
             this.setState({
                 visible: true,
-                modalText: 'click Send to update a post!',
+                modalText: 'click Update to update a post!',
             });
             
             setTimeout(() => {

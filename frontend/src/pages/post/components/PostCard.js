@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Card, Icon, Avatar, Row } from 'antd';
+import { Card, Icon, Avatar, Statistic } from 'antd';
 import { getUserInfo, getAuthority } from '@/utils/authority';
 import { Link, history } from 'umi';
 import { connect } from 'dva';
@@ -55,16 +55,40 @@ class PostCard extends Component {
         }, 300)
     }
 
+    like = (post_id) => {
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'post/like',
+            payload: {
+                post_id: post_id
+            },
+        });
+    }
+
+    dislike = (post_id) => {
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'post/dislike',
+            payload: {
+                post_id: post_id
+            },
+        });
+    }
+
     render() {
         const { post, linkToDetail } = this.props;
         const { Meta } = Card;
 
         let actions = [
-            <><Icon type="heart" /></>
+            <Icon type="like" onClick={this.like.bind(this, post.post_id)}/>,
+            <Icon type="dislike" onClick={this.dislike.bind(this, post.post_id)}/>
         ]
 
+        let extra = <></>
         if (post.likes) {
-            actions.push(<>{ post.likes }</>)
+            extra = <>{post.likes} <Icon type="heart" /></>
+        } else {
+            extra = <>{0} <Icon type="heart" /> </>
         }
 
         if (linkToDetail) {
@@ -88,13 +112,8 @@ class PostCard extends Component {
         return (
             <div>
                 <Card hoverable
-                    // cover={
-                    //     <img
-                    //         alt="example"
-                    //         src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                    //     />
-                    // }
                     actions={actions}
+                    extra={extra}
                 >
                     <Meta
                         avatar={<Avatar src={avatar_src} />}

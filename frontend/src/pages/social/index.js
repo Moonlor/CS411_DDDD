@@ -84,7 +84,6 @@ class SocialPage extends Component {
   render() {
     const { limit, offset, similiarUserList, followMap } = this.props;
     const { getFieldDecorator } = this.props.form
-    console.log("followMap: ", followMap);
     const columns = [
       {
         title: 'Name',
@@ -188,7 +187,7 @@ class SocialPage extends Component {
           </Form>
         </div>
 
-        {similiarUserList && <Table columns={columns} dataSource={similiarUserList} />}
+        {similiarUserList && <Table columns={columns} dataSource={similiarUserList} rowKey={'email'}/>}
 
       </div>
     );
