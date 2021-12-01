@@ -93,6 +93,14 @@ export default {
         },
       });
 
+      const thePost = yield call(GetPostByID, payload);
+      yield put({
+        type: 'saveDetail',
+        payload: {
+          postDetail: thePost.data[0],
+        },
+      });
+
     },
 
     *dislike({ payload }, { call, put }) {
@@ -105,6 +113,14 @@ export default {
           posts: response.data,
           offset: response.pageNumber,
           limit: response.pageSize,
+        },
+      });
+
+      const thePost = yield call(GetPostByID, payload);
+      yield put({
+        type: 'saveDetail',
+        payload: {
+          postDetail: thePost.data[0],
         },
       });
 
