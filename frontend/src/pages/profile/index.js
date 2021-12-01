@@ -318,22 +318,22 @@ const UserProfile = (props) => {
             </span>
             <p>Born in {userBirthMonth} {userBirthYear}</p>
             <Row>
-              <Col span={6}>
+              <Col span={8}>
+                <Row align="middle">
+                  <Divider type={"vertical"}/>
+                  <Button type="link">{numPosts}</Button> <span style={{fontWeight: 'bold'}}>Posts</span>
+                </Row>
+              </Col>
+              <Col span={8}>
                 <Row align="middle">
                   <Divider type={"vertical"}/>
                   <Button type="link">{numFollowers}</Button> <span style={{fontWeight: 'bold'}}>Followers</span>
                 </Row>
               </Col>
-              <Col span={6}>
+              <Col span={8}>
                 <Row align="middle">
                   <Divider type={"vertical"}/>
                   <Button type="link">{numFollowing}</Button> <span style={{fontWeight: 'bold'}}>Following</span>
-                </Row>
-              </Col>
-              <Col span={6}>
-                <Row align="middle">
-                  <Divider type={"vertical"}/>
-                  <Button type="link">{numPosts}</Button> <span style={{fontWeight: 'bold'}}>Posts</span>
                 </Row>
               </Col>
             </Row>
