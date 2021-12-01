@@ -1,6 +1,6 @@
 import {
   DeletePostByID, GetPostsByUserId,
-  GetFollowers, GetFollowing, GetUserByUserId, GetCheckFollow,
+  GetFollowers, GetFollowing, GetUserByUserId, GetCheckFollow, GetCheckins,
   FollowUser, UpdateProfile, UnfollowUser,} from './service';
 import { getAuthority, getUserInfo } from '@/utils/authority';
 import { notification } from 'antd';
@@ -14,6 +14,7 @@ export default {
     postList: [],
     followerList: [],
     followingList: [],
+    checkinList: [],
     numPosts: 0,
     numFollowers: 0,
     numFollowing: 0,
@@ -22,7 +23,7 @@ export default {
 
   effects: {
     *getUser({ payload: {userId} }, { call, put }){
-      console.log("getUser: userId ", userId);
+      // console.log("getUser: userId ", userId);
       const response = yield call(GetUserByUserId, {userId});
       // console.log("get user by userid: ", response);
       const userInfo = response.data[0];
@@ -49,7 +50,7 @@ export default {
       const response = yield call(GetFollowers, payload);
       // console.log("getFollowers response: ", response);
       const followerList = response.data;
-      console.log("getFollowers followerList: ", followerList)
+      // console.log("getFollowers followerList: ", followerList)
       yield put({
         type: 'saveFollowers',
         payload: {
@@ -77,7 +78,7 @@ export default {
         call(GetCheckFollow, { userId: userId, otherId: other.user_id})
       );
       // const response1 = yield [call(GetCheckFollow, { userId: payload.userId, otherId: followerList[0].user_id})];
-      console.log("getFollowMap responses: ", responses);
+      // console.log("getFollowMap responses: ", responses);
       let newMap = new Map();
       responses.forEach((response) => {
         const otherId = response.data[0].user2, followed = response.data[0].followed[0];
@@ -93,7 +94,7 @@ export default {
 
     *getFollowing({ payload }, { call, put }) {
       const response = yield call(GetFollowing, payload);
-      console.log("getFollowing response: ", response);
+      // console.log("getFollowing response: ", response);
 
       yield put({
         type: 'saveFollowing',
@@ -104,6 +105,22 @@ export default {
           numFollowing: response.total
         },
       });
+    },
+
+    *getCheckins({ payload }, { call, put }) {
+      const response = yield call(GetCheckins, payload);
+      console.log("getCheckins response: ", response);
+      const checkinList = response.data;
+      console.log("getCheckins list: ", checkinList)
+      yield put({
+        type: 'saveCheckins',
+        payload: {
+          checkinList: checkinList,
+          // offset: response.pageNumber,
+          // limit: response.pageSize,
+        },
+      });
+
     },
 
     *followUser({ payload }, { call, put }){
@@ -128,7 +145,7 @@ export default {
 
   reducers: {
     saveUser(state, { payload: { userInfo} }){
-      console.log("saveUser: ", userInfo);
+      // console.log("saveUser: ", userInfo);
       return {...state, userInfo};
     },
     saveSubPageIdx(state, { payload: { key: subPageIdx } }){
@@ -156,7 +173,11 @@ export default {
       })
       // console.log("save: oldMap ", oldMap)
       return { ...state, followMap: oldMap};
-    }
+    },
+    saveCheckins(state, { payload: { checkinList } }) {
+      // console.log("saveFollowers: ", followerList);
+      return { ...state, checkinList };
+    },
   },
 
   subscriptions: {
@@ -165,11 +186,13 @@ export default {
       // console.log("setup: ", getUserInfo());
       return history.listen(({ pathname, query }) => {
         const userId = getUserInfo();
+        console.log("userId: ", userId)
           if ((pathname === '/profile')) {
             dispatch({ type: 'getUser', payload: {userId: userId}});
             dispatch({ type: 'getPosts', payload: {userId: userId, limit: 20, offset: 1 }});
             dispatch({ type: 'getFollowers', payload: {userId: userId, limit: 20, offset: 1 }});
             dispatch({ type: 'getFollowing', payload: {userId: userId, limit: 20, offset: 1 }});
+            dispatch({ type: 'getCheckins', payload: {userId: userId, limit: 20, offset: 1}});
           }
         });
 

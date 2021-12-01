@@ -74,6 +74,17 @@ export async function GetCheckFollow(params) {
   });
 }
 
+
+export async function GetCheckins(params){
+  var url = new URL(`${DOMAIN}/api/checkin/${params.userId}`);
+  url.search = new URLSearchParams({ offset: params.offset, limit: params.limit }).toString()
+  console.log("get restaurant url: ", url)
+  return request(url, {
+    method: 'GET'
+  });
+}
+
+
 export async function FollowUser(params) {
   var url = new URL(`${DOMAIN}/api/user/follow/${params.user1}/${params.user2}`);
   url.search = new URLSearchParams().toString()
@@ -109,6 +120,8 @@ export async function UpdateProfile(params) {
     body: JSON.stringify(params.userInfo)
   });
 }
+
+
 //
 // export async function SendPost(params) {
 //   return request(`${DOMAIN}/api/post`, {

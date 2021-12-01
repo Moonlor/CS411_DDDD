@@ -1,6 +1,6 @@
 import {Component, useState, useEffect, createRef} from 'react';
-import {Avatar, Button, Card, Divider, Menu, Row, Typography, Col, Form, Icon} from 'antd';
-import { UserOutlined, ManOutlined, WomanOutlined, UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
+import {Avatar, Button, Card, Divider, Menu, Row, Typography, Col, Form, Icon, Tag} from 'antd';
+import { UserOutlined, ManOutlined, WomanOutlined, UserAddOutlined, UserDeleteOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { Link, history } from 'umi';
 import { connect } from 'dva';
 import { getUserInfo } from '@/utils/authority';
@@ -124,14 +124,16 @@ const UserProfile = (props) => {
 
   const handleClick = (e)=>{
     const { dispatch } = props;
-    dispatch({
-      type: 'profile/getFollowers',
-      payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
-    });
-    dispatch({
-      type: 'profile/getFollowing',
-      payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
-    });
+    if(e.key === 1 || e.key === 2){
+      dispatch({
+        type: 'profile/getFollowers',
+        payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
+      });
+      dispatch({
+        type: 'profile/getFollowing',
+        payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
+      });
+    }
     dispatch({
       type: 'profile/saveSubPageIdx',
       payload: {
@@ -143,8 +145,17 @@ const UserProfile = (props) => {
   const { userInfo, subPageIdx,
     postList, numPosts,
     followerList, numFollowers,
-    followingList, numFollowing} = props;
+    followingList, numFollowing,
+    checkinList
+  } = props;
 
+
+  const getCategories = (restaurant) => {
+    if(restaurant)
+      return restaurant.categories.split(", ");
+    else
+      return [];
+  }
 
     // getFollowMap();
 
@@ -165,7 +176,6 @@ const UserProfile = (props) => {
     // 0: my posts
     (
       <div className="site-card-border-less-wrapper">
-        My Posts
         <Card title="Posts"  style={{ width: '100%' }}>
           {
             postList.map((post)=>{
@@ -202,7 +212,6 @@ const UserProfile = (props) => {
     // 1: my followers
     (
       <div className="site-card-border-less-wrapper">
-        My Followers
         <Card title="Followers"  style={{ width: '100%' }}>
           {
             followerList.map((follower)=>{
@@ -257,7 +266,29 @@ const UserProfile = (props) => {
     // 3: update profile
     (
       <UpdateProfileForm userInfo={userInfo} ref={formRef}/>
+    ),
+    // 4: check-ins
+    (
+      <div className="site-card-border-less-wrapper">
+        <Card title="Check-In's"  style={{ width: '100%' }}>
+          {
+            checkinList.map((restaurant)=>
+               (
+
+                <Card type="inner" title={restaurant.name}>
+                  <p>
+                    { getCategories(restaurant).map( (category) =>(
+                      <Tag>{category}</Tag>
+                    ))}
+                  </p>
+                </Card>
+              )
+            )
+          }
+        </Card>
+      </div>
     )
+
   ];
 
 
@@ -335,6 +366,15 @@ const UserProfile = (props) => {
                   <Button type="link">Following</Button>
                 </span>
                 </Menu.Item>
+                {/* Note: key=3 is for update profile.*/}
+                <Menu.Item key={4}>
+                  <CheckCircleOutlined />
+                  <span>
+                  <Button type="link">Check-In's</Button>
+                </span>
+                </Menu.Item>
+
+
 
               </Menu>
 
@@ -356,6 +396,7 @@ export default Form.create()(connect(({ profile }) => ({
   postList: profile.postList,
   followerList: profile.followerList,
   followingList: profile.followingList,
+  checkinList: profile.checkinList,
   numPosts: profile.numPosts,
   numFollowers: profile.numFollowers,
   numFollowing: profile.numFollowing,
