@@ -84,6 +84,8 @@ class SocialPage extends Component {
   render() {
     const { limit, offset, similiarUserList, followMap } = this.props;
     const { getFieldDecorator } = this.props.form
+    console.log("props: ", this.props)
+    console.log("followMap: ", followMap)
     const columns = [
       {
         title: 'Name',

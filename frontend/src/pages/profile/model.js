@@ -133,22 +133,37 @@ export default {
 
     *followUser({ payload }, { call, put }){
       const response = yield call(FollowUser, payload);
+      yield put({
+        type: 'setFollow',
+        payload: {
+          userId: payload.user2
+        }
+      })
 
     },
     *unfollowUser({ payload }, { call, put }){
       const response = yield call(UnfollowUser, payload);
+      yield put({
+        type: 'setUnfollow',
+        payload: {
+          userId: payload.user2
+        }
+      })
 
     },
 
     *deleteByID({ payload }, { call, put }) {
       yield call(DeletePostByID, payload);
     },
+
     *updateProfile({ payload }, { call, put }){
       yield call(UpdateProfile, payload);
       notification.success({
         message: 'Profile Updated.'
       })
     },
+
+
   },
 
   reducers: {
@@ -182,6 +197,22 @@ export default {
       // console.log("save: oldMap ", oldMap)
       return { ...state, followMap: oldMap};
     },
+
+
+    setFollow(state, { payload: { userId } }){
+      // payload: { userId }
+      const oldMap = new Map(state.followMap);
+      oldMap.set(userId, true);
+      return { ...state, followMap: oldMap};
+    },
+
+    setUnfollow(state, { payload: { userId } }){
+      // payload: { userId }
+      const oldMap = new Map(state.followMap);
+      oldMap.set(userId, false);
+      return { ...state, followMap: oldMap};
+    },
+
     saveCheckins(state, { payload: { checkinList } }) {
       // console.log("saveFollowers: ", followerList);
       return { ...state, checkinList };
@@ -202,6 +233,10 @@ export default {
             dispatch({ type: 'getFollowing', payload: {userId: userId, limit: 20, offset: 1 }});
             dispatch({ type: 'getCheckins', payload: {userId: userId, limit: 20, offset: 1}});
           }
+          // else if((pathname === '/social')) {
+          //   dispatch({ type: 'getFollowers', payload: {userId: userId, limit: 20, offset: 1 }});
+          //   dispatch({ type: 'getFollowing', payload: {userId: userId, limit: 20, offset: 1 }});
+          // }
         });
 
       // return history.listen(({ pathname, query }) => {

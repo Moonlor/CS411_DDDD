@@ -69,15 +69,15 @@ const UserProfile = (props) => {
       },
     });
 
-    console.log("sending getFollower...")
-    dispatch({
-      type: 'profile/getFollowers',
-      payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
-    });
-    dispatch({
-      type: 'profile/getFollowing',
-      payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
-    });
+    // console.log("sending getFollower...")
+    // dispatch({
+    //   type: 'profile/getFollowers',
+    //   payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
+    // });
+    // dispatch({
+    //   type: 'profile/getFollowing',
+    //   payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
+    // });
   }
 
   const unfollowUser = (userId) => {
@@ -90,14 +90,14 @@ const UserProfile = (props) => {
       },
     });
 
-    dispatch({
-      type: 'profile/getFollowers',
-      payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
-    });
-    dispatch({
-      type: 'profile/getFollowing',
-      payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
-    });
+    // dispatch({
+    //   type: 'profile/getFollowers',
+    //   payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
+    // });
+    // dispatch({
+    //   type: 'profile/getFollowing',
+    //   payload: {userId: userInfo.user_id, limit: 20, offset: 1 }
+    // });
 
   }
 
@@ -218,7 +218,7 @@ const UserProfile = (props) => {
               const birth = getBirth(follower.birth_date);
               const birthMonth = birth.month, birthYear = birth.year;
               return (
-                <Card type="inner" title={follower.first_name + " " + follower.last_name} 
+                <Card type="inner" title={follower.first_name + " " + follower.last_name}
                   key={follower.user_id}
                       actions={
                         followMap.get(follower.user_id)?
@@ -280,7 +280,7 @@ const UserProfile = (props) => {
                     pathname: '/restaurant/detail',
                     search: `?restaurant_id=${restaurant.restaurant_id}`
                   }}
-              >{restaurant.name}</Link>} 
+              >{restaurant.name}</Link>}
               key={`?restaurant_id=${restaurant.restaurant_id}`}>
                 {/*<Card type="inner" title={<Button type="link">{restaurant.name}</Button>}>*/}
                   <p>
