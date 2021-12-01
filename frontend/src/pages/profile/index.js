@@ -275,12 +275,18 @@ const UserProfile = (props) => {
             checkinList.map((restaurant)=>
                (
 
-                <Card type="inner" title={restaurant.name}>
+                <Card type="inner" title={<Link to={{
+                    pathname: '/restaurant/detail',
+                    search: `?restaurant_id=${restaurant.restaurant_id}`
+                  }}
+                >{restaurant.name}</Link>}>
+                {/*<Card type="inner" title={<Button type="link">{restaurant.name}</Button>}>*/}
                   <p>
                     { getCategories(restaurant).map( (category) =>(
                       <Tag>{category}</Tag>
                     ))}
                   </p>
+                  <p>Checked In on {restaurant.date}</p>
                 </Card>
               )
             )

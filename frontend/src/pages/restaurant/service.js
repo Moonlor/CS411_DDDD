@@ -12,7 +12,7 @@ export async function SearchRestaurants(params) {
 export async function SearchRestaurantById(params){
   var url = new URL(`${DOMAIN}/api/restaurant/${params.restaurant_id}`);
   url.search = new URLSearchParams({}).toString()
-  // console.log("get restaurant url: ", url)
+  console.log("get restaurant url: ", url)
   return request(url, {
     method: 'GET'
   });

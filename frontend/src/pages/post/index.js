@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Row, Col, Form, Input } from 'antd';
+import { Row, Col, Form, Input, Typography } from 'antd';
 import { connect } from 'dva';
 import { getUserInfo } from '@/utils/authority';
 import StackGrid from "react-stack-grid";
@@ -7,6 +7,7 @@ import PostCard from './components/PostCard';
 import SendPostCard from './components/SendPostCard';
 
 const { Search } = Input;
+const { Title } = Typography;
 
 @connect(({ post, loading }) => ({
   postList: post.postList,
@@ -52,6 +53,7 @@ class PostPage extends Component {
               <SendPostCard offset={offset} limit={limit}></SendPostCard>
             </Col>
             <Col span={16}>
+              <Title level={4}>Want to See Popular Posts Only? Filter Posts with High Likes Below.</Title>
               <Search placeholder="posts with likes more than?" onSearch={this.onSearch.bind(this)} enterButton />
             </Col>
             <Col span={4}>
