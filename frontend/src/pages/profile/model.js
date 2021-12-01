@@ -96,7 +96,7 @@ export default {
     *getFollowing({ payload }, { call, put }) {
       const response = yield call(GetFollowing, payload);
       // console.log("getFollowing response: ", response);
-
+      const followingList = response.data;
       yield put({
         type: 'saveFollowing',
         payload: {
@@ -104,6 +104,15 @@ export default {
           // offset: response.pageNumber,
           // limit: response.pageSize,
           numFollowing: response.total
+        },
+      });
+
+
+      yield put({
+        type: 'getFollowMap',
+        payload: {
+          userId: payload.userId,
+          userList: followingList
         },
       });
     },
@@ -231,7 +240,8 @@ export default {
             dispatch({ type: 'getPosts', payload: {userId: userId, limit: 20, offset: 1 }});
             dispatch({ type: 'getFollowers', payload: {userId: userId, limit: 20, offset: 1 }});
             dispatch({ type: 'getFollowing', payload: {userId: userId, limit: 20, offset: 1 }});
-            dispatch({ type: 'getCheckins', payload: {userId: userId, limit: 20, offset: 1}});
+            dispatch({ type: 'getCheckins', payload: {userId: userId, limit: 20, offset: 1}})
+            // dispatch({ type: 'getFollowMap', payload: {userId: userId}});
           }
           // else if((pathname === '/social')) {
           //   dispatch({ type: 'getFollowers', payload: {userId: userId, limit: 20, offset: 1 }});
