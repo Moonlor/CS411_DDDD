@@ -1,4 +1,4 @@
-const DOMAIN = 'http://localhost:5000'
+const DOMAIN = 'http://34.136.205.12/:5000'
 const VERSION = 'v1.0'
 const LIMIT = 20
 const OFFSET = 1
