@@ -18,8 +18,8 @@ export default {
 
         let token = response.data[0].user_id;
         notification.success({
-          message: 'Congratulation! You have reatead your account!',
-          description: 'Welcome to delp!',
+          message: 'Congratulations! You have created your account!',
+          description: 'Welcome to Delp!',
         })
         setAuthority(token);
         setUserInfo(token);

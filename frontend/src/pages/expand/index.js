@@ -45,7 +45,10 @@ class ExpandPage extends Component {
                 <p>
                     New here? Using our advanced fast expanding function! Automatically follow all people with hot posts and get more inspirations!
                 </p>
-                
+                <p>
+                  Enter a number x, and we will help you follow users who have written a post with more than x likes.
+                </p>
+
             </div>
         );
 
@@ -78,7 +81,7 @@ class ExpandPage extends Component {
                         <Col span={2}>
                             <InputNumber min={50} max={1000} value={this.state.value} onChange={this.handleChange} />
                         </Col>
-                        
+
                         <Col span={5}>
                             <Button
                                 type="primary"
@@ -90,11 +93,11 @@ class ExpandPage extends Component {
                             </Button>
                         </Col>
                     </Row>
-                    
-                    
+
+
                 </div>
 
-                {dataList && dataList[0] && 
+                {dataList && dataList[0] &&
 
                     <div style={{ background: '#ECECEC', padding: '30px' }}>
                         <Card style={gridStyle} title="Popular Restaurants">
