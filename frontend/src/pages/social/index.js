@@ -127,7 +127,7 @@ class SocialPage extends Component {
           Ah, you sigh, if only there were someone else who loves both Japanese and American foods!
         </p>
         <p>
-          This is when we've got you covered: now you can search for people who also like both Japanese and American. Find those California Rolls and share your passion about Japanese and American foods with them.
+          This is when we've got you covered: now you can search for people who also like both Japanese and American. Find your fellow California Rolls and share your passion about Japanese and American foods with them.
         </p>
         <p>
           The query takes two restaurant tags, e.g. Japanese and American, and returns users who have written posts mentioning restaurants with those tags, i.e. users who have written about both a Japanese place and an American place.

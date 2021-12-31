@@ -308,7 +308,7 @@ const UserProfile = (props) => {
             <Avatar size={160} icon={<UserOutlined />} />
           </Col>
           <Col span={12}>
-            <Title level={2} style={{display: 'inline-block'}}>{first_name + ' ' + last_name}</Title>
+            <Title level={2} style={{display: 'inline-block'}}>{first_name? first_name + ' ' + last_name:""}</Title>
             <span style={{margin: 20}}>
               {gender == '1'?
                 <WomanOutlined style={{fontSize: '16px', color: '#f3d2cf'}}/>
